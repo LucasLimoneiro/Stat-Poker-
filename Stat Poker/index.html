@@ -1,0 +1,2662 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StatPoker — Seu clube inteiro, numa só mesa. Torneios, cash game, bar, financeiro, ranking e o app do jogador. 100% online, com banco exclusivo e 2FA.">
+  <title>StatPoker — Gestão de Clubes de Poker</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23e0332b'/%3E%3Cpath d='M16 4A12 12 0 0 1 16 28' fill='%234fd1a5'/%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- ═══ FALLING CHIPS & CARDS (Animation Layer) ═══ -->
+  <div class="falling-elements-container" id="fallingElements" aria-hidden="true"></div>
+
+  <!-- ═══ OVERLAY: OFERTA DE LANÇAMENTO (PROMO POPUP) ═══ -->
+  <div class="promo-overlay" id="overlayPromo" aria-modal="true" role="dialog" aria-label="Oferta de lançamento" hidden>
+    <div class="promo-modal">
+      <button type="button" class="promo-modal__close" id="btnClosePromo" aria-label="Fechar oferta">✕</button>
+      <div class="promo-modal__header">
+        <span class="promo-modal__icon">🔥</span>
+        <h2 class="promo-modal__title">Oferta de lançamento</h2>
+      </div>
+      <p class="promo-modal__desc">
+        Assine o plano Pro até 30/06 e ganhe 2 meses do módulo GameID grátis para o seu clube.
+      </p>
+      <div class="promo-modal__actions">
+        <a href="#planos" class="promo-modal__btn" id="btnAproveitarPromo">Quero aproveitar</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HEADER / NAV ═══ -->
+  <header class="header" id="header">
+    <a href="#hero" class="header__logo header__logo--svg">
+      <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="16" fill="#e0332b"/>
+        <text x="16" y="21" text-anchor="middle" font-size="16" fill="white" font-family="serif">♠</text>
+        <circle cx="24" cy="8" r="8" fill="#3ecf8e"/>
+        <text x="24" y="13" text-anchor="middle" font-size="10" fill="white" font-family="serif">♣</text>
+      </svg>
+      <span class="header__logo-text">
+        <span class="header__logo-stat">Stat</span><span class="header__logo-poker">Poker</span>
+      </span>
+    </a>
+    <nav class="header__nav" aria-label="Navegação principal">
+      <a href="#quem-somos" class="header__nav-link">Quem Somos</a>
+      <a href="#tudo-na-mesa" class="header__nav-link">Tudo na Mesa</a>
+      <a href="#planos" class="header__nav-link">Planos</a>
+      <a href="#fale-conosco" class="header__nav-link">Fale Conosco</a>
+      <button id="btnOpenLogin" class="btn btn-lift btn--green" type="button">Entrar</button>
+    </nav>
+  </header>
+
+  <!-- ═══ SECTION 1 — HERO ═══ -->
+  <section class="hero" id="hero">
+    <!-- Imagem de fundo -->
+    <div class="hero__bg" aria-hidden="true"></div>
+
+    <!-- Fade escuro por cima da imagem -->
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    <!-- Cartas/naipes de fundo -->
+    <div class="hero__suits" aria-hidden="true">
+      <span class="hero__suit hero__suit--1">♠</span>
+      <span class="hero__suit hero__suit--2">♥</span>
+      <span class="hero__suit hero__suit--3">♦</span>
+      <span class="hero__suit hero__suit--4">♣</span>
+    </div>    <div class="hero__content">
+      <p class="hero__eyebrow">
+        <span class="hero__eyebrow-suits">♠ ♥ ♣ ♦</span>
+        <span class="hero__eyebrow-text">— gestão de clubes de poker</span>
+      </p>
+      <h1 class="hero__title">
+        <span class="hero__title-stat">STAT</span>
+        <span class="hero__title-poker poker-glow">POKER</span>
+      </h1>
+      <p class="hero__description">
+        Seu clube inteiro, numa só mesa. Torneios, cash game, bar, financeiro, ranking e o app do jogador — <strong>100% online</strong>, com banco exclusivo e 2FA.
+      </p>
+      <div class="hero__buttons">
+        <a href="#planos" class="btn btn-lift btn--primary">Começar Agora</a>
+        <a href="#tudo-na-mesa" class="btn btn-lift btn--secondary">Conhecer o Sistema</a>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <span class="hero__scroll-text">Scroll</span>
+      <span class="hero__scroll-arrow">▼</span>
+    </div>
+  </section>
+
+  <!-- ═══ TICKER 1 ═══ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker__item">Tickets <span class="suit">♥</span></span>
+      <span class="ticker__item">Jackpot <span class="suit">♦</span></span>
+      <span class="ticker__item">GameID <span class="suit">♦</span></span>
+      <span class="ticker__item">Torneios <span class="suit">♦</span></span>
+      <span class="ticker__item">Cash Game <span class="suit">♥</span></span>
+      <span class="ticker__item">Bar & Restaurante <span class="suit">♦</span></span>
+      <span class="ticker__item">Financeiro <span class="suit">♦</span></span>
+      <span class="ticker__item">Ranking <span class="suit">♦</span></span>
+      <!-- Duplicate for seamless loop -->
+      <span class="ticker__item">Tickets <span class="suit">♥</span></span>
+      <span class="ticker__item">Jackpot <span class="suit">♦</span></span>
+      <span class="ticker__item">GameID <span class="suit">♦</span></span>
+      <span class="ticker__item">Torneios <span class="suit">♦</span></span>
+      <span class="ticker__item">Cash Game <span class="suit">♥</span></span>
+      <span class="ticker__item">Bar & Restaurante <span class="suit">♦</span></span>
+      <span class="ticker__item">Financeiro <span class="suit">♦</span></span>
+      <span class="ticker__item">Ranking <span class="suit">♦</span></span>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 2 — BANNER DESTAQUE ═══ -->
+  <section class="highlight-section">
+
+
+
+    <div class="highlight-card">
+      <div class="highlight-card__label">
+        <span class="highlight-card__label-icon">📢</span>
+        <span>Destaque</span>
+      </div>
+      <h2 class="highlight-card__title">
+        Semana do Clube: <span class="green">migração gratuita</span>
+      </h2>
+      <p class="highlight-card__text">
+        Trazemos todo o seu histórico de jogadores, ranking e financeiro para o StatPoker sem custo e sem parar a operação do clube.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 3 — QUEM SOMOS ═══ -->
+  <section class="quem-somos" id="quem-somos">
+
+
+    <div class="quem-somos__grid">
+      <div class="quem-somos__left">
+        <div class="section-title section-heading">
+          <span class="section-title__line">QUEM</span>
+          <span class="section-title__line text-outline-green">SOMOS</span>
+        </div>
+        <p class="quem-somos__text">
+          Atendemos globalmente a comunidade do poker — clubes, eventos e jogadores. Nossa equipe une tecnologia e salão: <strong>sabemos o que é uma fila no caixa às 21h de quinta-feira.</strong>
+        </p>
+      </div>
+      <div class="quem-somos__right">
+        <div class="quem-somos__cards">
+          <div class="stat-card">
+            <div class="stat-card__number">3</div>
+            <div class="stat-card__text"><strong>produtos:</strong> Clubes, Eventos e GameID</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__number">100%</div>
+            <div class="stat-card__text"><strong>online</strong> — sem servidor local</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__number">1</div>
+            <div class="stat-card__text"><strong>banco exclusivo</strong> por clube</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TICKER 2 ═══ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" style="animation-direction: reverse;">
+      <span class="ticker__item">Cash Game <span class="suit">♥</span></span>
+      <span class="ticker__item">Bar & Restaurante <span class="suit">♦</span></span>
+      <span class="ticker__item">Financeiro <span class="suit">♦</span></span>
+      <span class="ticker__item">Ranking <span class="suit">♦</span></span>
+      <span class="ticker__item">Tickets <span class="suit">♥</span></span>
+      <span class="ticker__item">Jackpot <span class="suit">♦</span></span>
+      <span class="ticker__item">GameID <span class="suit">♦</span></span>
+      <span class="ticker__item">Torneios <span class="suit">♦</span></span>
+      <!-- Duplicate -->
+      <span class="ticker__item">Cash Game <span class="suit">♥</span></span>
+      <span class="ticker__item">Bar & Restaurante <span class="suit">♦</span></span>
+      <span class="ticker__item">Financeiro <span class="suit">♦</span></span>
+      <span class="ticker__item">Ranking <span class="suit">♦</span></span>
+      <span class="ticker__item">Tickets <span class="suit">♥</span></span>
+      <span class="ticker__item">Jackpot <span class="suit">♦</span></span>
+      <span class="ticker__item">GameID <span class="suit">♦</span></span>
+      <span class="ticker__item">Torneios <span class="suit">♦</span></span>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 4 — TUDO NA MESA ═══ -->
+  <section class="tudo-na-mesa" id="tudo-na-mesa">
+
+
+
+    <div class="tudo-na-mesa__header">
+      <div class="section-title section-heading">
+        <span class="section-title__line">TUDO NA</span>
+        <span class="section-title__line text-outline-green">MESA</span>
+      </div>
+    </div>
+
+    <div class="tudo-na-mesa__grid">
+      <!-- Torneios -->
+      <div class="module-card">
+        <div class="module-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+            <path d="M4 22h16"/>
+            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 19.24 7 20v2"/>
+            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 19.24 17 20v2"/>
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+          </svg>
+        </div>
+        <h3 class="module-card__title">Torneios</h3>
+        <p class="module-card__text">Blinds, caixa com ticket de mesa/posição automático, relógio sincronizado nas TVs e gestão de mesas com redraw.</p>
+      </div>
+
+      <!-- Cash Game -->
+      <div class="module-card">
+        <div class="module-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C7.58 2 4 5.58 4 10c0 1.5.4 2.9 1.1 4.1L12 22l6.9-7.9c.7-1.2 1.1-2.6 1.1-4.1 0-4.42-3.58-8-8-8z"/>
+            <path d="M12 6.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5"/>
+            <line x1="12" y1="5.5" x2="12" y2="6.5"/>
+            <line x1="12" y1="12.5" x2="12" y2="13.5"/>
+          </svg>
+        </div>
+        <h3 class="module-card__title">Cash Game</h3>
+        <p class="module-card__text">Fichário conferido em tempo real, fila de espera digital e tempo de jogo por jogador direto do app do dealer.</p>
+      </div>
+
+      <!-- Bar & Restaurante -->
+      <div class="module-card">
+        <div class="module-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 2l1.5 8h15L21 2"/>
+            <path d="M4.5 10L3 22h18l-1.5-12"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="12" y1="2" x2="12" y2="6"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+          </svg>
+        </div>
+        <h3 class="module-card__title">Bar & Restaurante</h3>
+        <p class="module-card__text">Comandas no caixa ou na mesa, estoque baixando a cada venda e consumo na conta do jogador.</p>
+      </div>
+
+      <!-- Financeiro -->
+      <div class="module-card">
+        <div class="module-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <line x1="7" y1="21" x2="7" y2="12"/>
+            <line x1="12" y1="21" x2="12" y2="8"/>
+            <line x1="17" y1="21" x2="17" y2="14"/>
+          </svg>
+        </div>
+        <h3 class="module-card__title">Financeiro</h3>
+        <p class="module-card__text">Centro de custos por área, PW PIX com agendamentos e extrato consolidado de todos os caixas.</p>
+      </div>
+
+      <!-- Engajamento -->
+      <div class="module-card">
+        <div class="module-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M12 2v2"/>
+            <path d="M9.17 14.83L7 22l5-3 5 3-2.17-7.17"/>
+          </svg>
+        </div>
+        <h3 class="module-card__title">Engajamento</h3>
+        <p class="module-card__text">Ranking com fórmula própria, tickets de satélites rastreáveis e jackpot acumulando em tempo real.</p>
+      </div>
+
+      <!-- GameID -->
+      <div class="module-card">
+        <div class="module-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="3"/>
+            <line x1="12" y1="18" x2="12" y2="18.01"/>
+          </svg>
+        </div>
+        <h3 class="module-card__title">GameID</h3>
+        <p class="module-card__text">O app do jogador: auto-cadastro, inscrição com QR PIX e acompanhamento de torneios e ranking ao vivo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 5 — PLANOS ═══ -->
+  <section class="planos" id="planos">
+
+
+
+    <div class="planos__header">
+      <div class="section-title section-heading">
+        <span class="section-title__line">ESCOLHA SEU</span>
+        <span class="section-title__line text-outline-green">JOGO</span>
+      </div>
+    </div>
+
+    <div class="planos__grid">
+      <!-- START -->
+      <div class="plan-card">
+        <h3 class="plan-card__name">Start</h3>
+        <div class="plan-card__price">R$ 297/mês</div>
+        <div class="plan-card__features">
+          <div class="plan-card__feature">Torneios + Cash Game</div>
+          <div class="plan-card__feature">Até 3 logins de equipe</div>
+          <div class="plan-card__feature">Relógio nas TVs do salão</div>
+          <div class="plan-card__feature">Suporte em horário comercial</div>
+        </div>
+        <a href="#" class="btn btn-lift btn--primary">Assinar Start</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan-card plan-card--featured">
+        <div class="plan-card__badge">Mais Escolhido</div>
+        <h3 class="plan-card__name">Pro</h3>
+        <div class="plan-card__price">R$ 597/mês</div>
+        <div class="plan-card__features">
+          <div class="plan-card__feature">Tudo do Start</div>
+          <div class="plan-card__feature">Bar, Financeiro PW PIX e Relatórios</div>
+          <div class="plan-card__feature">Ranking, Tickets e Jackpot</div>
+          <div class="plan-card__feature">Logins ilimitados + app do dealer</div>
+          <div class="plan-card__feature">Suporte prioritário 7 dias</div>
+        </div>
+        <a href="#" class="btn btn-lift btn--primary">Assinar Pro</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="plan-card">
+        <h3 class="plan-card__name">Enterprise</h3>
+        <div class="plan-card__price">Sob Consulta</div>
+        <div class="plan-card__features">
+          <div class="plan-card__feature">Tudo do Pro + GameID white label</div>
+          <div class="plan-card__feature">Multi-unidades e eventos</div>
+          <div class="plan-card__feature">Integrações dedicadas</div>
+          <div class="plan-card__feature">Gerente de conta exclusivo</div>
+        </div>
+        <a href="#" class="btn btn-lift btn--primary">Falar com Vendas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 6 — FALE CONOSCO ═══ -->
+  <section class="fale-conosco" id="fale-conosco">
+
+
+    <div class="fale-conosco__container">
+      <div class="section-title section-heading">
+        <span class="section-title__line">FALE</span>
+        <span class="section-title__line text-outline-green">CONOSCO</span>
+      </div>
+
+      <form class="fale-conosco__form" id="contactForm">
+        <div class="form__row">
+          <div class="form__group">
+            <label class="form__label" for="nome">Seu Nome</label>
+            <input type="text" class="form__input" id="nome" name="nome" placeholder="Seu nome completo" required>
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="contato">E-mail ou WhatsApp</label>
+            <input type="text" class="form__input" id="contato" name="contato" placeholder="email@exemplo.com" required>
+          </div>
+        </div>
+        <div class="form__group form__group--full">
+          <label class="form__label" for="mensagem">Mensagem</label>
+          <textarea class="form__textarea" id="mensagem" name="mensagem" placeholder="Conte sobre o seu clube: quantas mesas, torneios por semana..."></textarea>
+        </div>
+        <div class="fale-conosco__submit">
+          <button type="submit" class="btn btn-lift btn--primary">Enviar Mensagem</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 7 — FOOTER ═══ -->
+  <footer class="footer" id="rodape">
+
+
+
+    <div class="footer__container">
+      <h2 class="footer__headline">
+        O clube inteiro,<br>
+        sempre na <span class="text-outline-green">mesa.</span>
+      </h2>
+      <p class="footer__subtext">
+        100% online, com banco exclusivo e 2FA. Torneios, cash game, bar, financeiro, ranking e o app do jogador.
+      </p>
+
+      <div class="footer__columns">
+        <div class="footer__col">
+          <h3 class="footer__col-title">Navegação</h3>
+          <a href="#quem-somos" class="footer__col-link">Quem somos</a>
+          <a href="#tudo-na-mesa" class="footer__col-link">Tudo na mesa</a>
+          <a href="#planos" class="footer__col-link">Planos</a>
+          <a href="#fale-conosco" class="footer__col-link">Fale conosco</a>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__col-title">Contato</h3>
+          <a href="mailto:contato@statpoker.com" class="footer__col-link">contato@statpoker.com</a>
+          <span class="footer__col-link">Suporte 7 dias</span>
+          <span class="footer__col-link">Multi-idiomas</span>
+        </div>
+      </div>
+
+      <div class="footer__divider"></div>
+
+      <div class="footer__bottom">
+        <span class="footer__copyright">© 2026 StatPoker</span>
+        <span class="footer__tagline"><span class="suits">♠ ♥ ♣ ♦</span> — Gestão de Clubes de Poker</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ OVERLAY: LOGIN ═══ -->
+  <div class="auth-overlay" id="overlayLogin" aria-modal="true" role="dialog" aria-label="Login" hidden>
+    <div class="auth-panel">
+      <div class="auth-logo">
+        <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="16" fill="#e0332b"/>
+          <text x="16" y="21" text-anchor="middle" font-size="16" fill="white" font-family="serif">♠</text>
+          <circle cx="24" cy="8" r="8" fill="#3ecf8e"/>
+          <text x="24" y="13" text-anchor="middle" font-size="10" fill="white" font-family="serif">♣</text>
+        </svg>
+        <span class="auth-logo__text"><span class="auth-logo__stat">Stat</span><span class="auth-logo__poker">Poker</span></span>
+      </div>
+      <p class="auth-subtitle">Clube Royal Flush — acesso restrito</p>
+
+      <div class="auth-fields">
+        <div class="auth-field">
+          <label class="auth-label" for="loginUser">Usuário</label>
+          <input id="loginUser" type="text" placeholder="seu.usuario" class="auth-input" autocomplete="username">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="loginPass">Senha</label>
+          <input id="loginPass" type="password" placeholder="••••••••" class="auth-input" autocomplete="current-password">
+        </div>
+      </div>
+
+      <button id="btnLogin" class="auth-btn" type="button">Entrar</button>
+
+      <div class="auth-forgot">
+        <a href="#" class="auth-link">Esqueci minha senha</a>
+      </div>
+
+      <div class="auth-footer">
+        <p class="auth-secure">🔒 Conexão segura · banco de dados exclusivo do clube</p>
+        <button id="btnLoginBack" class="auth-back" type="button">← Voltar ao site</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ OVERLAY: 2FA ═══ -->
+  <div class="auth-overlay" id="overlay2FA" aria-modal="true" role="dialog" aria-label="Verificação em duas etapas" hidden>
+    <div class="auth-panel">
+      <div class="auth-logo">
+        <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="16" fill="#e0332b"/>
+          <text x="16" y="21" text-anchor="middle" font-size="16" fill="white" font-family="serif">♠</text>
+          <circle cx="24" cy="8" r="8" fill="#3ecf8e"/>
+          <text x="24" y="13" text-anchor="middle" font-size="10" fill="white" font-family="serif">♣</text>
+        </svg>
+        <span class="auth-logo__text"><span class="auth-logo__stat">Stat</span><span class="auth-logo__poker">Poker</span></span>
+      </div>
+      <p class="auth-subtitle">Clube Royal Flush — acesso restrito</p>
+
+      <div class="auth-2fa-heading">
+        <h2 class="auth-2fa-title">Verificação em duas etapas</h2>
+        <p class="auth-2fa-desc">Digite o código de 6 dígitos do seu aplicativo autenticador.</p>
+      </div>
+
+      <div class="auth-otp" id="otpInputs">
+        <input class="auth-otp__digit" type="text" inputmode="numeric" maxlength="1" aria-label="Dígito 1">
+        <input class="auth-otp__digit" type="text" inputmode="numeric" maxlength="1" aria-label="Dígito 2">
+        <input class="auth-otp__digit" type="text" inputmode="numeric" maxlength="1" aria-label="Dígito 3">
+        <input class="auth-otp__digit" type="text" inputmode="numeric" maxlength="1" aria-label="Dígito 4">
+        <input class="auth-otp__digit" type="text" inputmode="numeric" maxlength="1" aria-label="Dígito 5">
+        <input class="auth-otp__digit" type="text" inputmode="numeric" maxlength="1" aria-label="Dígito 6">
+      </div>
+
+      <button id="btnConfirm2FA" class="auth-btn" type="button">Confirmar</button>
+
+      <div class="auth-forgot">
+        <button id="btn2FABack" class="auth-link" type="button" style="background:none;border:none;cursor:pointer;">← Voltar</button>
+      </div>
+
+      <div class="auth-footer">
+        <p class="auth-secure">🔒 Conexão segura · banco de dados exclusivo do clube</p>
+      </div>
+    </div>
+
+    <button class="auth-help" type="button" aria-label="Ajuda">?</button>
+  </div>
+
+  <!-- ═══ OVERLAY: DASHBOARD ═══ -->
+  <div class="dash-overlay" id="overlayDashboard" hidden>
+
+    <!-- ── Mobile Backdrop ── -->
+    <div class="dash-sidebar-backdrop" id="dashSidebarBackdrop"></div>
+
+    <!-- ── Sidebar ── -->
+    <aside class="dash-sidebar" id="dashSidebar">
+      <div class="dash-sidebar__logo" style="display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="16" fill="#e0332b"/>
+            <text x="16" y="21" text-anchor="middle" font-size="16" fill="white" font-family="serif">♠</text>
+            <circle cx="24" cy="8" r="8" fill="#3ecf8e"/>
+            <text x="24" y="13" text-anchor="middle" font-size="10" fill="white" font-family="serif">♣</text>
+          </svg>
+          <span class="dash-sidebar__logo-text"><span class="dash-sidebar__logo-stat">Stat</span><span class="dash-sidebar__logo-poker">Poker</span></span>
+        </div>
+        <button id="dashCloseSidebarBtn" class="dash-sidebar__close" type="button" aria-label="Fechar menu">✕</button>
+      </div>
+
+      <nav class="dash-nav">
+        <div class="dash-nav__section">OPERAÇÃO</div>
+        <a href="#" class="dash-nav__item dash-nav__item--active" data-view="home"><span class="dash-nav__icon">🏠</span> Home</a>
+        <a href="#" class="dash-nav__item" data-view="torneios"><span class="dash-nav__icon">🏆</span> Torneios</a>
+        <a href="#" class="dash-nav__item" data-view="cash"><span class="dash-nav__icon">💰</span> Cash Game</a>
+        <a href="#" class="dash-nav__item" data-view="bar"><span class="dash-nav__icon">🍺</span> Bar &amp; Restaurante</a>
+
+        <div class="dash-nav__section">CADASTROS</div>
+        <a href="#" class="dash-nav__item" data-view="jogadores"><span class="dash-nav__icon">👤</span> Jogadores</a>
+        <a href="#" class="dash-nav__item" data-view="funcionarios"><span class="dash-nav__icon">👥</span> Funcionários</a>
+
+        <div class="dash-nav__section">ENGAJAMENTO</div>
+        <a href="#" class="dash-nav__item" data-view="ranking"><span class="dash-nav__icon">🥇</span> Ranking</a>
+        <a href="#" class="dash-nav__item" data-view="tickets"><span class="dash-nav__icon">🎟️</span> Tickets</a>
+        <a href="#" class="dash-nav__item" data-view="jackpot"><span class="dash-nav__icon">💰</span> Jackpot</a>
+        <a href="#" class="dash-nav__item" data-view="marketing"><span class="dash-nav__icon">📣</span> Marketing</a>
+
+        <div class="dash-nav__section">GESTÃO</div>
+        <a href="#" class="dash-nav__item" data-view="financeiro"><span class="dash-nav__icon">📊</span> Financeiro</a>
+        <a href="#" class="dash-nav__item" data-view="relatorios"><span class="dash-nav__icon">📄</span> Relatórios</a>
+      </nav>
+
+    </aside>
+
+    <!-- ── Main content ── -->
+    <main class="dash-main">
+      <header class="dash-topbar">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <button id="dashMenuBtn" class="dash-menu-toggle" type="button" aria-label="Abrir menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <h1 class="dash-topbar__title" id="topbarTitle">Home</h1>
+        </div>
+        <div class="dash-topbar__right">
+          <div class="dash-user dash-user--right">
+            <div class="dash-user__info text-right">
+              <div class="dash-user__name">Victor</div>
+              <div class="dash-user__role">Administrador</div>
+            </div>
+            <div class="dash-user__avatar">VI</div>
+          </div>
+          <button id="btnLogout" class="dash-logout" type="button" title="Sair">⏻</button>
+        </div>
+      </header>
+      
+      <div class="dash-content">
+
+        <!-- VIEW: HOME -->
+        <div id="view-home" class="dash-view">
+
+        <!-- Welcome header -->
+        <div class="dash-header">
+          <div>
+            <h2 class="dash-welcome">Bem-vindo, Victor 👋</h2>
+            <p class="dash-date">Domingo, 13 de setembro de 2026 · Clube Royal Flush</p>
+          </div>
+          <div class="dash-header__actions">
+            <div class="dash-dropdown-wrap">
+              <button id="dateDropBtn" class="dash-chip" type="button">
+                Últimos 7 dias <span class="dash-chip__arrow">▾</span>
+              </button>
+              <div class="dash-dropdown" id="dateDropMenu" hidden>
+                <button class="dash-dropdown__item" type="button">Últimos 7 dias</button>
+                <button class="dash-dropdown__item" type="button">Últimos 30 dias</button>
+                <button class="dash-dropdown__item" type="button">Este mês</button>
+                <button class="dash-dropdown__item" type="button">Personalizado</button>
+              </div>
+            </div>
+            <button class="dash-chip" type="button">💬 Suporte</button>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="dash-kpi-grid">
+          <div class="kpi-card" style="--kpi-color:#3ecf8e">
+            <div class="kpi-card__label">Faturamento</div>
+            <div class="kpi-card__value">R$ 86.320</div>
+            <div class="kpi-card__sub" style="color:#3ecf8e">▲ 12% — vs. semana anterior</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:#3b82f6">
+            <div class="kpi-card__label">Rake Total</div>
+            <div class="kpi-card__value">R$ 14.780</div>
+            <div class="kpi-card__sub" style="color:#60a5fa">▲ 8% — vs. semana anterior</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:#f97316">
+            <div class="kpi-card__label">Jogadores Únicos</div>
+            <div class="kpi-card__value">214</div>
+            <div class="kpi-card__sub" style="color:#fb923c">31 novos cadastros</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:#ef4444">
+            <div class="kpi-card__label">Despesas</div>
+            <div class="kpi-card__value">R$ 22.140</div>
+            <div class="kpi-card__sub" style="color:#f87171">▼ 4% — bom sinal</div>
+          </div>
+        </div>
+
+        <!-- Middle row -->
+        <div class="dash-row">
+          <!-- Revenue panel (2/3) -->
+          <div class="dash-panel dash-panel--2">
+            <div class="dash-panel__title">Receita por centro de custo</div>
+            <div class="dash-panel__body">
+              <div class="revenue-row">
+                <div class="revenue-row__hd">
+                  <span class="revenue-row__label">Torneios</span>
+                  <span class="revenue-row__val">R$ 41.200 · <b style="color:#3ecf8e">62%</b></span>
+                </div>
+                <div class="revenue-bar"><div class="revenue-bar__fill" style="width:62%;background:#3ecf8e"></div></div>
+              </div>
+              <div class="revenue-row">
+                <div class="revenue-row__hd">
+                  <span class="revenue-row__label">Cash Game</span>
+                  <span class="revenue-row__val">R$ 28.900 · <b style="color:#3b82f6">28%</b></span>
+                </div>
+                <div class="revenue-bar"><div class="revenue-bar__fill" style="width:28%;background:#3b82f6"></div></div>
+              </div>
+              <div class="revenue-row">
+                <div class="revenue-row__hd">
+                  <span class="revenue-row__label">Bar &amp; Restaurante</span>
+                  <span class="revenue-row__val">R$ 16.220 · <b style="color:#f97316">10%</b></span>
+                </div>
+                <div class="revenue-bar"><div class="revenue-bar__fill" style="width:10%;background:#f97316"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Happening now panel (1/3) -->
+          <div class="dash-panel dash-panel--1">
+            <div class="dash-panel__title">Acontecendo agora</div>
+            <div class="dash-panel__body">
+              <div class="event-row">
+                <div>
+                  <div class="event-row__name">Main Event Quinta</div>
+                  <div class="event-row__sub">Nível 6 · 42 jogadores</div>
+                </div>
+                <span class="badge badge--green">AO VIVO</span>
+              </div>
+              <div class="event-row">
+                <div>
+                  <div class="event-row__name">Cash NLH 5/10</div>
+                  <div class="event-row__sub">Mesa 1 · 9/9 lugares</div>
+                </div>
+                <span class="badge badge--green">AO VIVO</span>
+              </div>
+              <div class="event-row">
+                <div>
+                  <div class="event-row__name">Cash PLO 5/5</div>
+                  <div class="event-row__sub">Mesa 3 · 6/8 lugares</div>
+                </div>
+                <span class="badge badge--green">AO VIVO</span>
+              </div>
+              <div class="event-row">
+                <div>
+                  <div class="event-row__name">Satélite Sábado Special</div>
+                  <div class="event-row__sub">Início 21:30 · 12 regs antecipados</div>
+                </div>
+                <span class="badge badge--orange">EM BREVE</span>
+              </div>
+              <div class="event-row event-row--bordered">
+                <div>
+                  <div class="event-row__name">Jackpot acumulado</div>
+                  <div class="event-row__sub">+ R$ 320 hoje</div>
+                </div>
+                <span class="jackpot-val">R$ 18.450</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="dash-row">
+          <!-- Frequency chart (2/3) -->
+          <div class="dash-panel dash-panel--2">
+            <div class="dash-panel__title">Frequência de jogadores</div>
+            <div class="dash-panel__body">
+              <div class="freq-chart">
+                <div class="freq-bar">
+                  <div class="freq-bar__fill" style="height:67px;background:#3ecf8e;opacity:0.75"></div>
+                  <span class="freq-bar__label">Seg</span>
+                </div>
+                <div class="freq-bar">
+                  <div class="freq-bar__fill" style="height:49px;background:#3ecf8e;opacity:0.75"></div>
+                  <span class="freq-bar__label">Ter</span>
+                </div>
+                <div class="freq-bar">
+                  <div class="freq-bar__fill" style="height:81px;background:#3ecf8e;opacity:0.75"></div>
+                  <span class="freq-bar__label">Qua</span>
+                </div>
+                <div class="freq-bar">
+                  <div class="freq-bar__fill" style="height:110px;background:#f97316;opacity:1"></div>
+                  <span class="freq-bar__label">Qui</span>
+                </div>
+                <div class="freq-bar">
+                  <div class="freq-bar__fill" style="height:95px;background:#3ecf8e;opacity:0.75"></div>
+                  <span class="freq-bar__label">Sex</span>
+                </div>
+                <div class="freq-bar">
+                  <div class="freq-bar__fill" style="height:104px;background:#3ecf8e;opacity:0.75"></div>
+                  <span class="freq-bar__label">Sáb</span>
+                </div>
+                <div class="freq-bar">
+                  <div class="freq-bar__fill" style="height:44px;background:#3ecf8e;opacity:0.75"></div>
+                  <span class="freq-bar__label">Dom</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Training panel (1/3) -->
+          <div class="dash-panel dash-panel--1">
+            <div class="dash-panel__title">🎓 Treinamento &amp; novidades</div>
+            <div class="dash-panel__body">
+              <a href="#" class="training-item">
+                <span class="training-item__text"><span class="training-item__play">▶</span>Abrindo um torneio do zero</span>
+                <span class="training-item__meta">8 min</span>
+              </a>
+              <a href="#" class="training-item">
+                <span class="training-item__text"><span class="training-item__play">▶</span>Operando o caixa do cash game</span>
+                <span class="training-item__meta">12 min</span>
+              </a>
+              <a href="#" class="training-item">
+                <span class="training-item__text"><span class="training-item__play">▶</span>Como configurar um torneio com re-entry</span>
+              </a>
+              <a href="#" class="training-item">
+                <span class="training-item__text"><span class="training-item__play">▶</span>Gestão de caixa: conferência passo a passo</span>
+              </a>
+              <a href="#" class="training-item">
+                <span class="training-item__text"><span class="training-item__play">▶</span>Ranking: como configurar pontos por evento</span>
+              </a>
+              <a href="#" class="training-item">
+                <span class="training-item__text"><span class="training-item__play">▶</span>App do jogador: primeiros passos</span>
+              </a>
+              <div class="training-news">
+                <span class="training-news__icon">📄</span>
+                <div>
+                  <div class="training-news__title">Novo painel de blinds com sync via internet</div>
+                  <div class="training-news__meta">8 jun 2026 — dispense o cabo HDMI com códigos de sincronização.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
+        <!-- /VIEW: HOME -->
+
+        <!-- VIEW: TORNEIOS -->
+        <div id="view-torneios" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Gestão de Torneios</h2>
+              <p class="dash-date">Criação, caixa, salão e resultados</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button">⚙️ Controle do relógio</button>
+              <button class="dash-chip" type="button" style="color: #3ecf8e">+ Novo torneio</button>
+            </div>
+          </div>
+
+          <div class="dash-filters">
+            <input type="text" class="dash-input" placeholder="Buscar torneio..." />
+            <select class="dash-select">
+              <option>Todos os status</option>
+              <option>Ao vivo</option>
+              <option>Inscrições</option>
+              <option>Agendado</option>
+              <option>Encerrado</option>
+            </select>
+          </div>
+
+          <div class="dash-panel" style="overflow-x: auto;">
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>TORNEIO</th>
+                  <th>DATA / HORA</th>
+                  <th>BUY-IN</th>
+                  <th>INSCRITOS</th>
+                  <th>GARANTIDO</th>
+                  <th>STATUS</th>
+                  <th class="text-right">AÇÕES</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="table-title">Main Event Quinta</div>
+                    <div class="table-sub">NLH · 1 dia · ranking ativo</div>
+                  </td>
+                  <td>11/06 - 20:00</td>
+                  <td>R$ 250</td>
+                  <td>42 <span style="color:#9a9a9a">(1 re-entries)</span></td>
+                  <td>R$ 10.000</td>
+                  <td><span class="badge badge--green">AO VIVO - NÍVEL 6</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">Caixa</a>
+                    <a href="#" class="table-action">Mesas</a>
+                    <a href="#" class="table-action">Relógio</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Satélite Sábado Special</div>
+                    <div class="table-sub">NLH · satélite · 1 ticket a cada 10 entradas</div>
+                  </td>
+                  <td>11/06 - 21:30</td>
+                  <td>R$ 60</td>
+                  <td>12</td>
+                  <td>5 tickets</td>
+                  <td><span class="badge badge--blue">INSCRIÇÕES</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">Caixa</a>
+                    <a href="#" class="table-action">Editar</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Sábado Special — Dia 1A</div>
+                    <div class="table-sub">NLH · classificatório · chipcount p/ dia final</div>
+                  </td>
+                  <td>13/06 - 18:00</td>
+                  <td>R$ 500</td>
+                  <td>27 <span style="color:#9a9a9a">(antecipados)</span></td>
+                  <td>R$ 50.000</td>
+                  <td><span class="badge badge--orange">AGENDADO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">Editar</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Turbo Terça</div>
+                    <div class="table-sub">NLH · 1 dia · níveis de 12 min</div>
+                  </td>
+                  <td>09/06 - 20:00</td>
+                  <td>R$ 150</td>
+                  <td>58 <span style="color:#9a9a9a">(2 re-entries)</span></td>
+                  <td>R$ 8.000</td>
+                  <td><span class="badge" style="background:rgba(255,255,255,0.1); color:#9a9a9a;">ENCERRADO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">Resultados</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW: CASH GAME -->
+        <div id="view-cash" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Sessão de Cash Game</h2>
+              <p class="dash-date">Aberta às 18:30 · fichário inicial R$ 50.000 · última conferência às 21:40</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button">⚙️ Controle do dealer</button>
+              <button class="dash-chip" type="button" style="color: #facc15">🧾 Conferência de caixa</button>
+            </div>
+          </div>
+
+          <!-- Cash KPIs -->
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#3ecf8e">
+              <div class="kpi-card__label">Fichas em circulação</div>
+              <div class="kpi-card__value">R$ 26.230</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#facc15">
+              <div class="kpi-card__label">Valores em caixa</div>
+              <div class="kpi-card__value">R$ 26.230</div>
+              <div class="kpi-card__sub" style="color:#facc15">✓ conferido 21:40</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">Jogadores Ativos</div>
+              <div class="kpi-card__value">13</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#a855f7">
+              <div class="kpi-card__label">Rake da Sessão</div>
+              <div class="kpi-card__value">R$ 2.180</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left: Mesas (grid 2x2) -->
+            <div class="cash-tables-grid">
+              
+              <!-- Mesa 1 -->
+              <div class="dash-panel" style="padding: 1rem; border-left: 2px solid #3ecf8e;">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
+                  <span style="font-weight:600; font-size:0.8rem; color:#fff;">Mesa 1 - NLH 5/10</span>
+                  <span style="font-size:0.7rem; color:#3ecf8e;">5/9</span>
+                </div>
+                <div class="poker-table">
+                  <div class="poker-table__surface"></div>
+                  <!-- simulated seats -->
+                  <div class="seat" style="top:10%; left:20%;">CM</div>
+                  <div class="seat seat--empty" style="top:10%; left:50%;">2</div>
+                  <div class="seat" style="top:10%; left:80%;">AP</div>
+                  <div class="seat" style="top:50%; left:10%;">MV</div>
+                  <div class="seat seat--empty" style="top:50%; left:90%;">5</div>
+                  <div class="seat" style="top:90%; left:30%;">FT</div>
+                  <div class="seat seat--empty" style="top:90%; left:70%;">7</div>
+                  <div class="seat seat--empty" style="top:120%; left:50%;">8</div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:1rem;">
+                  <span style="font-size:0.65rem; color:#9a9a9a;">Em jogo: R$ 13.510</span>
+                  <button class="dash-chip" type="button">Fechar mesa</button>
+                </div>
+              </div>
+
+              <!-- Mesa 2 -->
+              <div class="dash-panel" style="padding: 1rem; border-left: 2px solid #3ecf8e;">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
+                  <span style="font-weight:600; font-size:0.8rem; color:#fff;">Mesa 2 - NLH 2/5</span>
+                  <span style="font-size:0.7rem; color:#3ecf8e;">4/9</span>
+                </div>
+                <div class="poker-table">
+                  <div class="poker-table__surface"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:1rem;">
+                  <span style="font-size:0.65rem; color:#9a9a9a;">Em jogo: R$ 4.420</span>
+                  <button class="dash-chip" type="button">Fechar mesa</button>
+                </div>
+              </div>
+
+              <!-- Mesa 3 -->
+              <div class="dash-panel" style="padding: 1rem; border-left: 2px solid #3ecf8e;">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
+                  <span style="font-weight:600; font-size:0.8rem; color:#fff;">Mesa 3 - PLO 5/5</span>
+                  <span style="font-size:0.7rem; color:#3ecf8e;">4/8</span>
+                </div>
+                <div class="poker-table">
+                  <div class="poker-table__surface"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:1rem;">
+                  <span style="font-size:0.65rem; color:#9a9a9a;">Em jogo: R$ 3.280</span>
+                  <button class="dash-chip" type="button">Fechar mesa</button>
+                </div>
+              </div>
+
+              <!-- Mesa 4 (Fechada) -->
+              <div class="dash-panel" style="padding: 1rem; border-left: 2px solid rgba(255,255,255,0.1); opacity: 0.5;">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
+                  <span style="font-weight:600; font-size:0.8rem; color:#fff;">Mesa 4 - Dealer's Choice</span>
+                  <span style="font-size:0.7rem; color:#9a9a9a;">FECHADA</span>
+                </div>
+                <div class="poker-table" style="display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:0.65rem; color:#9a9a9a;">Abrir quando a fila justificar</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:1rem;">
+                  <span style="font-size:0.65rem; color:#9a9a9a;">--</span>
+                  <button class="dash-chip" type="button">Abrir mesa</button>
+                </div>
+              </div>
+
+            </div><!-- end mesas -->
+
+            <!-- Right: Fila & Movimentações -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+              
+              <!-- Fila -->
+              <div class="dash-panel">
+                <div class="dash-panel__title" style="display:flex; justify-content:space-between;">
+                  <span>⏳ Fila de espera (4)</span>
+                  <a href="#" style="color:#3ecf8e; font-size:0.65rem; text-decoration:none;">+ Adicionar</a>
+                </div>
+                <div class="dash-panel__body">
+                  
+                  <div class="waitlist-item">
+                    <div style="flex:1;">
+                      <div style="font-size:0.75rem; color:#fff; font-weight:600;">1. Mauricio K.</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">NLH 5/10 - aguarda 18 min</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="font-size:0.65rem;">Sentar</button>
+                  </div>
+                  
+                  <div class="waitlist-item">
+                    <div style="flex:1;">
+                      <div style="font-size:0.75rem; color:#fff; font-weight:600;">2. Paula Viana</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">NLH 2/5 - aguarda 12 min</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="font-size:0.65rem;">Sentar</button>
+                  </div>
+
+                  <div class="waitlist-item">
+                    <div style="flex:1;">
+                      <div style="font-size:0.75rem; color:#fff; font-weight:600;">3. Edu Santos</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">PLO 5/5 - aguarda 9 min</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="font-size:0.65rem;">Sentar</button>
+                  </div>
+
+                  <div class="waitlist-item">
+                    <div style="flex:1;">
+                      <div style="font-size:0.75rem; color:#fff; font-weight:600;">4. Rata Queiroz</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">Qualquer mesa - aguarda 4 min</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="font-size:0.65rem;">Sentar</button>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Movimentações -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">🧾 Movimentações</div>
+                <div class="dash-panel__body" style="gap:0.4rem;">
+                  <div style="display:flex; justify-content:space-between; font-size:0.7rem;">
+                    <span style="color:#d1d5db;">Carlos Mendes <span style="color:#9a9a9a;">— compra de fichas</span></span>
+                    <span style="color:#3ecf8e;">+ R$ 2.000</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:0.7rem;">
+                    <span style="color:#d1d5db;">Sara Kim <span style="color:#9a9a9a;">— pagamento (PIX)</span></span>
+                    <span style="color:#ef4444;">- R$ 1.350</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:0.7rem;">
+                    <span style="color:#d1d5db;">Hugo Pereira <span style="color:#9a9a9a;">— compra via Sangear</span></span>
+                    <span style="color:#3ecf8e;">+ R$ 500</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: BAR & RESTAURANTE -->
+        <div id="view-bar" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Bar & Restaurante</h2>
+              <p class="dash-date">Terminal de caixa · pedidos via app chegam como comandas abertas</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button" style="color: #3ecf8e">+ Nova comanda</button>
+            </div>
+          </div>
+
+          <!-- Bar KPIs -->
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#3ecf8e">
+              <div class="kpi-card__label">Vendas Hoje</div>
+              <div class="kpi-card__value">R$ 1.840,00</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">Comandas Abertas</div>
+              <div class="kpi-card__value">3</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#facc15">
+              <div class="kpi-card__label">Ticket Médio</div>
+              <div class="kpi-card__value">R$ 88,00</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#ef4444">
+              <div class="kpi-card__label">Estoque Baixo</div>
+              <div class="kpi-card__value">3</div>
+              <div class="kpi-card__sub" style="color:#ef4444">itens p/ repor</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left Panel -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+              
+              <!-- Produtos -->
+              <div class="dash-panel">
+                <div class="dash-panel__title" style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Produtos</span>
+                  <div style="display:flex; gap:0.75rem; font-size:0.65rem; color:#9a9a9a; font-weight:500;">
+                    <span style="color:#fff;">Todos</span>
+                    <span>Bebidas</span>
+                    <span>Lanches</span>
+                    <span>Porções</span>
+                  </div>
+                </div>
+                <div class="dash-panel__body bar-product-grid" style="padding:1rem;">
+                  <!-- Product 1 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">🍺</div>
+                    <div class="bar-product__name">Cerveja long neck</div>
+                    <div class="bar-product__price">R$ 14,00</div>
+                    <div class="bar-product__stock">48 em estoque</div>
+                  </div>
+                  <!-- Product 2 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">💧</div>
+                    <div class="bar-product__name">Água mineral</div>
+                    <div class="bar-product__price">R$ 6,00</div>
+                    <div class="bar-product__stock">50 em estoque</div>
+                  </div>
+                  <!-- Product 3 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">🥤</div>
+                    <div class="bar-product__name">Refrigerante lata</div>
+                    <div class="bar-product__price">R$ 8,00</div>
+                    <div class="bar-product__stock">25 em estoque</div>
+                  </div>
+                  <!-- Product 4 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">⚡</div>
+                    <div class="bar-product__name">Energético</div>
+                    <div class="bar-product__price">R$ 16,00</div>
+                    <div class="bar-product__stock" style="color:#ef4444;">7 em estoque</div>
+                  </div>
+                  <!-- Product 5 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">🥃</div>
+                    <div class="bar-product__name">Whisky dose</div>
+                    <div class="bar-product__price">R$ 35,00</div>
+                    <div class="bar-product__stock">22 em estoque</div>
+                  </div>
+                  <!-- Product 6 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">🍔</div>
+                    <div class="bar-product__name">X-Burger</div>
+                    <div class="bar-product__price">R$ 32,00</div>
+                    <div class="bar-product__stock">15 em estoque</div>
+                  </div>
+                  <!-- Product 7 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">🌭</div>
+                    <div class="bar-product__name">Hot dog</div>
+                    <div class="bar-product__price">R$ 20,00</div>
+                    <div class="bar-product__stock" style="color:#ef4444;">3 em estoque</div>
+                  </div>
+                  <!-- Product 8 -->
+                  <div class="bar-product">
+                    <div style="font-size:1.2rem;">🍟</div>
+                    <div class="bar-product__name">Batata frita</div>
+                    <div class="bar-product__price">R$ 24,00</div>
+                    <div class="bar-product__stock">18 em estoque</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Comandas Abertas -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">Comandas Abertas</div>
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>COMANDA</th>
+                      <th>CLIENTE</th>
+                      <th>ITENS</th>
+                      <th>TOTAL</th>
+                      <th class="text-right">AÇÕES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="table-title">#380</div>
+                        <div class="table-sub">App - Mesa 1</div>
+                      </td>
+                      <td>Marcos Vinicius</td>
+                      <td>5</td>
+                      <td>R$ 80,00</td>
+                      <td class="text-right"><a href="#" class="table-action">Fechar</a></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="table-title">#382</div>
+                        <div class="table-sub">Caixa</div>
+                      </td>
+                      <td>Carlos Mendes</td>
+                      <td>3</td>
+                      <td>R$ 122,00</td>
+                      <td class="text-right"><a href="#" class="table-action">Fechar</a></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="table-title">#383</div>
+                        <div class="table-sub">App - Sangear</div>
+                      </td>
+                      <td>Mesa 3 (salão)</td>
+                      <td>1</td>
+                      <td>R$ 24,00</td>
+                      <td class="text-right"><a href="#" class="table-action">Fechar</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+              
+              <!-- Comanda atual -->
+              <div class="dash-panel">
+                <div class="dash-panel__title" style="display:flex; justify-content:space-between;">
+                  <span>📄 Comanda #384</span>
+                  <a href="#" style="color:#3b82f6; font-size:0.65rem; text-decoration:none;">Excluir</a>
+                </div>
+                <div class="dash-panel__body">
+                  <input type="text" class="dash-input" placeholder="Vincular a jogador (nome ou GameID)..." style="width:100%;" />
+                  
+                  <div style="padding:2rem 0; text-align:center; color:#9a9a9a; font-size:0.7rem;">
+                    Clique nos produtos para adicionar.
+                  </div>
+
+                  <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:1rem; margin-top:1rem;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+                      <span style="color:#9a9a9a; font-size:0.75rem;">Total</span>
+                      <span style="color:#facc15; font-size:1rem; font-weight:700;">R$ 0,00</span>
+                    </div>
+                    <button class="dash-chip" type="button" style="width:100%; justify-content:center; color:#3ecf8e; border-color:rgba(62,207,142,0.3); margin-bottom:0.5rem;">💳 Fechar comanda</button>
+                    <button class="dash-chip" type="button" style="width:100%; justify-content:center;">Deixar aberta (consumo contínuo)</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Estoque -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">📦 Estoque</div>
+                <div class="dash-panel__body">
+                  <!-- Estoque row 1 -->
+                  <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.7rem;">
+                    <span style="width:70px; color:#d1d5db;">Hot dog</span>
+                    <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px;">
+                      <div style="width:10%; background:#ef4444; height:100%; border-radius:3px;"></div>
+                    </div>
+                    <span style="color:#ef4444; width:15px; text-align:right;">3</span>
+                  </div>
+                  <!-- Estoque row 2 -->
+                  <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.7rem;">
+                    <span style="width:70px; color:#d1d5db;">Energético</span>
+                    <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px;">
+                      <div style="width:20%; background:#ef4444; height:100%; border-radius:3px;"></div>
+                    </div>
+                    <span style="color:#ef4444; width:15px; text-align:right;">7</span>
+                  </div>
+                  <!-- Estoque row 3 -->
+                  <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.7rem;">
+                    <span style="width:70px; color:#d1d5db;">Cerveja l/n</span>
+                    <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px;">
+                      <div style="width:80%; background:#3ecf8e; height:100%; border-radius:3px;"></div>
+                    </div>
+                    <span style="color:#3ecf8e; width:15px; text-align:right;">48</span>
+                  </div>
+                  <!-- Estoque row 4 -->
+                  <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.7rem;">
+                    <span style="width:70px; color:#d1d5db;">Refrigerante</span>
+                    <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px;">
+                      <div style="width:60%; background:#3ecf8e; height:100%; border-radius:3px;"></div>
+                    </div>
+                    <span style="color:#3ecf8e; width:15px; text-align:right;">25</span>
+                  </div>
+                  <!-- Estoque row 5 -->
+                  <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.7rem;">
+                    <span style="width:70px; color:#d1d5db;">Whisky dose</span>
+                    <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px;">
+                      <div style="width:50%; background:#3ecf8e; height:100%; border-radius:3px;"></div>
+                    </div>
+                    <span style="color:#3ecf8e; width:15px; text-align:right;">22</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: JOGADORES -->
+        <div id="view-jogadores" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Gestão de Jogadores</h2>
+              <p class="dash-date">7 jogadores ativos · 2 novos este mês</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button">🎂 Aniversariantes</button>
+              <button class="dash-chip" type="button" style="color: #3ecf8e">+ Novo jogador</button>
+            </div>
+          </div>
+
+          <div class="dash-filters">
+            <input type="text" class="dash-input" placeholder="Buscar por nome, apelido ou GameID..." />
+            <select class="dash-select">
+              <option>Todos os grupos</option>
+              <option>VIP</option>
+              <option>Regular</option>
+              <option>Novato</option>
+            </select>
+            <select class="dash-select">
+              <option>Qualquer saldo</option>
+              <option>Saldo positivo</option>
+              <option>Saldo devedor</option>
+            </select>
+          </div>
+
+          <div class="dash-panel" style="overflow-x: auto;">
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>JOGADOR</th>
+                  <th>GRUPO</th>
+                  <th>SALDO</th>
+                  <th>LIMITE DE CRÉDITO</th>
+                  <th>TICKETS</th>
+                  <th>ÚLTIMA VISITA</th>
+                  <th class="text-right">AÇÕES</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="table-title">Carlos Mendes 🏆</div>
+                    <div class="table-sub">"Carlão" · GameID #1042</div>
+                  </td>
+                  <td><span class="badge" style="background:rgba(59,130,246,0.15); color:#3b82f6;">VIP</span></td>
+                  <td style="color:#3ecf8e; font-weight:600;">R$ 1.250,00</td>
+                  <td>R$ 5.000</td>
+                  <td>2</td>
+                  <td>Hoje</td>
+                  <td class="text-right"><a href="#" class="table-action">Abrir ficha</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Ana Paula Reis</div>
+                    <div class="table-sub">"AP" · GameID #1187</div>
+                  </td>
+                  <td><span class="badge badge--green">Regular</span></td>
+                  <td style="color:#3ecf8e; font-weight:600;">R$ 320,00</td>
+                  <td>R$ 2.000</td>
+                  <td>1</td>
+                  <td>Hoje</td>
+                  <td class="text-right"><a href="#" class="table-action">Abrir ficha</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Rodrigo Salles 🚩</div>
+                    <div class="table-sub">"Rodrig" · GameID #1033</div>
+                  </td>
+                  <td><span class="badge badge--green">Regular</span></td>
+                  <td style="color:#ef4444; font-weight:600;">- R$ 480,00</td>
+                  <td>R$ 1.500</td>
+                  <td>0</td>
+                  <td>Ontem</td>
+                  <td class="text-right"><a href="#" class="table-action">Abrir ficha</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Júlio Ramos</div>
+                    <div class="table-sub">GameID #1434</div>
+                  </td>
+                  <td><span class="badge badge--orange">Novato</span></td>
+                  <td>R$ 0,00</td>
+                  <td>—</td>
+                  <td>0</td>
+                  <td>07/06</td>
+                  <td class="text-right"><a href="#" class="table-action">Abrir ficha</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Marcos Vinicius</div>
+                    <div class="table-sub">"MV" · GameID #1021</div>
+                  </td>
+                  <td><span class="badge" style="background:rgba(59,130,246,0.15); color:#3b82f6;">VIP</span></td>
+                  <td style="color:#3ecf8e; font-weight:600;">R$ 2.840,00</td>
+                  <td>R$ 8.000</td>
+                  <td>1</td>
+                  <td>Hoje</td>
+                  <td class="text-right"><a href="#" class="table-action">Abrir ficha</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Paula Viana</div>
+                    <div class="table-sub">GameID #1115</div>
+                  </td>
+                  <td><span class="badge badge--green">Regular</span></td>
+                  <td style="color:#3ecf8e; font-weight:600;">R$ 150,00</td>
+                  <td>R$ 1.000</td>
+                  <td>0</td>
+                  <td>05/06</td>
+                  <td class="text-right"><a href="#" class="table-action">Abrir ficha</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="table-title">Hugo Pereira</div>
+                    <div class="table-sub">"Huguinho" · GameID #1256</div>
+                  </td>
+                  <td><span class="badge badge--orange">Novato</span></td>
+                  <td style="color:#3ecf8e; font-weight:600;">R$ 75,00</td>
+                  <td>R$ 500</td>
+                  <td>0</td>
+                  <td>Hoje</td>
+                  <td class="text-right"><a href="#" class="table-action">Abrir ficha</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW: FUNCIONÁRIOS -->
+        <div id="view-funcionarios" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Gestão de Funcionários</h2>
+              <p class="dash-date">Logins individuais · permissões por função · log completo p/ auditoria</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button" style="color: #3ecf8e">+ Novo funcionário</button>
+            </div>
+          </div>
+
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#3ecf8e">
+              <div class="kpi-card__label">Funcionários Ativos</div>
+              <div class="kpi-card__value">6</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">Online Agora</div>
+              <div class="kpi-card__value">4</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#facc15">
+              <div class="kpi-card__label">Grupos de permissões</div>
+              <div class="kpi-card__value">6</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#a855f7">
+              <div class="kpi-card__label">Acessos Hoje</div>
+              <div class="kpi-card__value">8</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left Area -->
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+              
+              <!-- Equipe Table -->
+              <div class="dash-panel">
+                <div class="dash-panel__title" style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Equipe</span>
+                  <input type="text" class="dash-input" placeholder="Buscar..." style="max-width:200px; padding:0.3rem 0.6rem; font-size:0.7rem;" />
+                </div>
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>FUNCIONÁRIO</th>
+                      <th>GRUPO</th>
+                      <th>LOGIN</th>
+                      <th>ÚLTIMO ACESSO</th>
+                      <th>STATUS</th>
+                      <th class="text-right">AÇÕES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:600; color:#fff;"><span style="color:#3ecf8e;">●</span> Victor Fortram</td>
+                      <td style="color:#3b82f6;">Administrador</td>
+                      <td>victor</td>
+                      <td>agora</td>
+                      <td><span class="badge badge--green">ATIVO</span></td>
+                      <td class="text-right"><a href="#" class="table-action">Desativar</a></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#fff;"><span style="color:#3ecf8e;">●</span> Rafaela Dias</td>
+                      <td style="color:#3ecf8e;">Diretor de torneio</td>
+                      <td>rafaela.d</td>
+                      <td>agora</td>
+                      <td><span class="badge badge--green">ATIVO</span></td>
+                      <td class="text-right"><a href="#" class="table-action">Desativar</a></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#fff;"><span style="color:#3ecf8e;">●</span> Mia Tanaka</td>
+                      <td style="color:#3ecf8e;">Caixa</td>
+                      <td>mia.t</td>
+                      <td>agora</td>
+                      <td><span class="badge badge--green">ATIVO</span></td>
+                      <td class="text-right"><a href="#" class="table-action">Desativar</a></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#fff;"><span style="color:#3ecf8e;">●</span> Téo Almeida</td>
+                      <td style="color:#3ecf8e;">Sangear / Dealer</td>
+                      <td>teo.a</td>
+                      <td>agora</td>
+                      <td><span class="badge badge--green">ATIVO</span></td>
+                      <td class="text-right"><a href="#" class="table-action">Desativar</a></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#fff;"><span style="color:#ef4444;">●</span> Carla Nunes</td>
+                      <td style="color:#3ecf8e;">Atendente bar</td>
+                      <td>carla.n</td>
+                      <td>hoje 19:42</td>
+                      <td><span class="badge badge--green">ATIVO</span></td>
+                      <td class="text-right"><a href="#" class="table-action">Desativar</a></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#fff;"><span style="color:#ef4444;">●</span> Pedro Gomes</td>
+                      <td style="color:#3ecf8e;">Gerente</td>
+                      <td>pedro.g</td>
+                      <td>ontem 23:55</td>
+                      <td><span class="badge badge--green">ATIVO</span></td>
+                      <td class="text-right"><a href="#" class="table-action">Desativar</a></td>
+                    </tr>
+                    <tr style="opacity:0.5;">
+                      <td style="font-weight:600; color:#fff;"><span style="color:#ef4444;">●</span> Lucas Brito</td>
+                      <td style="color:#3ecf8e;">Caixa</td>
+                      <td>lucas.b</td>
+                      <td>02/06 22:10</td>
+                      <td><span class="badge" style="background:rgba(255,255,255,0.1); color:#9a9a9a;">DESATIVADO</span></td>
+                      <td class="text-right"><a href="#" class="table-action">Reativar</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Log de Auditoria -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">📄 Log de acessos (auditoria)</div>
+                <div class="dash-panel__body" style="font-family: monospace; font-size: 0.65rem; color: #9a9a9a;">
+                  <div><span style="color:#6b7280;">21:44</span> <span style="color:#fff;">mia.t</span> Venda no caixa de torneio — buy in Carlos Mendes</div>
+                  <div><span style="color:#6b7280;">21:40</span> <span style="color:#fff;">mia.t</span> Conferência de caixa do cash registrada</div>
+                  <div><span style="color:#6b7280;">21:35</span> <span style="color:#fff;">teo.a</span> Venda via Sangear — mesa 3 (R$ 500)</div>
+                  <div><span style="color:#6b7280;">20:45</span> <span style="color:#fff;">rafaela.d</span> Avançou nível de blinds — Main Event Quinta</div>
+                  <div><span style="color:#6b7280;">20:11</span> <span style="color:#fff;">victor</span> Login (2FA ok) — IP 187.45.xx.xx</div>
+                  <div style="color:#ef4444;"><span style="color:#6b7280;">20:02</span> <span style="color:#fff;">pedro.g</span> ⚠️ Tentativa de acesso à aba Financeiro — negado (sem permissão)</div>
+                  <div><span style="color:#6b7280;">19:42</span> <span style="color:#fff;">carla.n</span> Logout</div>
+                  <div><span style="color:#6b7280;">18:30</span> <span style="color:#fff;">mia.t</span> Abertura da sessão de cash — fichário R$ 50.000</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Area -->
+            <div>
+              <div class="dash-panel">
+                <div class="dash-panel__title">🔒 Grupos de permissões</div>
+                <div class="dash-panel__body" style="gap:1rem;">
+                  
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.8rem;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem; margin-bottom:0.3rem;">Administrador</div>
+                      <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Todos os módulos</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Configurações</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Financeiro</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Auditoria</span>
+                      </div>
+                    </div>
+                    <div style="font-size:0.6rem; color:#9a9a9a;">1 ativo</div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.8rem;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem; margin-bottom:0.3rem;">Gerente</div>
+                      <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Torneios</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Cash</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Bar</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Jogadores</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Financeiro</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Relatórios</span>
+                      </div>
+                    </div>
+                    <div style="font-size:0.6rem; color:#9a9a9a;">1 ativo</div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.8rem;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem; margin-bottom:0.3rem;">Caixa</div>
+                      <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Caixa Torneio</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Caixa Cash</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Jogadores (parcial)</span>
+                      </div>
+                    </div>
+                    <div style="font-size:0.6rem; color:#9a9a9a;">1 ativo</div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.8rem;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem; margin-bottom:0.3rem;">Diretor de torneio</div>
+                      <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Torneios</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Mesas</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Relógio</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Ranking</span>
+                      </div>
+                    </div>
+                    <div style="font-size:0.6rem; color:#9a9a9a;">1 ativo</div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.8rem;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem; margin-bottom:0.3rem;">Sangear / Dealer</div>
+                      <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Venda via celular</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Tempo de mesa</span>
+                      </div>
+                    </div>
+                    <div style="font-size:0.6rem; color:#9a9a9a;">1 ativo</div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem; margin-bottom:0.3rem;">Atendente bar</div>
+                      <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Comandas</span>
+                        <span style="font-size:0.55rem; color:#3ecf8e; border:1px solid rgba(62,207,142,0.3); padding:0.1rem 0.3rem; border-radius:4px;">Pedidos app</span>
+                      </div>
+                    </div>
+                    <div style="font-size:0.6rem; color:#9a9a9a;">1 ativo</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: RANKING -->
+        <div id="view-ranking" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Ranking Geral — Temporada 2026</h2>
+              <p class="dash-date">Critério oficial da temporada · pontuação acumulada por etapa de torneios</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button" style="color: #9a9a9a;">⚙️ Regras de Pontuação</button>
+              <button class="dash-chip" type="button" style="color: #3ecf8e;">📥 Exportar Ranking</button>
+            </div>
+          </div>
+
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#3ecf8e">
+              <div class="kpi-card__label">Líder da Temporada</div>
+              <div class="kpi-card__value" style="font-size: 1.1rem; color:#fff;">Carlos Mendes</div>
+              <div style="font-size: 0.65rem; color:#3ecf8e; margin-top: 0.2rem;">1.420 pontos</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">Jogadores no Ranking</div>
+              <div class="kpi-card__value">128</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#f59e0b">
+              <div class="kpi-card__label">Etapas Disputadas</div>
+              <div class="kpi-card__value">14 <span style="font-size:0.75rem; color:#9a9a9a; font-weight:normal;">/ 24</span></div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#a855f7">
+              <div class="kpi-card__label">Premiação do Ranking</div>
+              <div class="kpi-card__value" style="font-size: 1.25rem;">R$ 25.000</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left: Table -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <div class="dash-panel">
+                <div class="dash-panel__title" style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Classificação Geral</span>
+                  <div style="display:flex; gap:0.5rem;">
+                    <input type="text" class="dash-input" placeholder="Buscar jogador..." style="max-width:180px; padding:0.3rem 0.6rem; font-size:0.7rem;" />
+                    <select class="dash-select" style="padding:0.3rem 0.6rem; font-size:0.7rem;">
+                      <option>Temporada 2026</option>
+                      <option>Ranking Maio</option>
+                      <option>Ranking High Roller</option>
+                    </select>
+                  </div>
+                </div>
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>POS</th>
+                      <th>JOGADOR</th>
+                      <th>PONTOS</th>
+                      <th>ETAPAS</th>
+                      <th>VITÓRIAS</th>
+                      <th>ITMS</th>
+                      <th>PREMIAÇÃO ESTIMADA</th>
+                      <th class="text-right">STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:700; color:#facc15; font-size:0.85rem;">1º 🥇</td>
+                      <td style="font-weight:600; color:#fff;">Carlos Mendes</td>
+                      <td style="font-weight:700; color:#3ecf8e;">1.420</td>
+                      <td>14</td>
+                      <td>3</td>
+                      <td>9</td>
+                      <td style="color:#facc15; font-weight:600;">R$ 10.000 (40%)</td>
+                      <td class="text-right"><span class="badge badge--green">CLASSIFICADO</span></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:700; color:#cbd5e1; font-size:0.85rem;">2º 🥈</td>
+                      <td style="font-weight:600; color:#fff;">Marcos Vinicius</td>
+                      <td style="font-weight:700; color:#3ecf8e;">1.280</td>
+                      <td>13</td>
+                      <td>2</td>
+                      <td>8</td>
+                      <td style="color:#facc15; font-weight:600;">R$ 6.250 (25%)</td>
+                      <td class="text-right"><span class="badge badge--green">CLASSIFICADO</span></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:700; color:#d97706; font-size:0.85rem;">3º 🥉</td>
+                      <td style="font-weight:600; color:#fff;">Ana Paula Reis</td>
+                      <td style="font-weight:700; color:#3ecf8e;">1.150</td>
+                      <td>12</td>
+                      <td>2</td>
+                      <td>7</td>
+                      <td style="color:#facc15; font-weight:600;">R$ 3.750 (15%)</td>
+                      <td class="text-right"><span class="badge badge--green">CLASSIFICADO</span></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#9a9a9a;">4º</td>
+                      <td style="font-weight:600; color:#fff;">Renata Melo</td>
+                      <td style="font-weight:700; color:#3ecf8e;">980</td>
+                      <td>11</td>
+                      <td>1</td>
+                      <td>6</td>
+                      <td style="color:#facc15; font-weight:600;">R$ 2.500 (10%)</td>
+                      <td class="text-right"><span class="badge badge--green">CLASSIFICADO</span></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#9a9a9a;">5º</td>
+                      <td style="font-weight:600; color:#fff;">Otto Wagner</td>
+                      <td style="font-weight:700; color:#3ecf8e;">890</td>
+                      <td>10</td>
+                      <td>1</td>
+                      <td>5</td>
+                      <td style="color:#facc15; font-weight:600;">R$ 1.500 (6%)</td>
+                      <td class="text-right"><span class="badge badge--green">CLASSIFICADO</span></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:#9a9a9a;">6º</td>
+                      <td style="font-weight:600; color:#fff;">Sara Kim</td>
+                      <td style="font-weight:700; color:#3ecf8e;">810</td>
+                      <td>9</td>
+                      <td>1</td>
+                      <td>4</td>
+                      <td style="color:#facc15; font-weight:600;">R$ 1.000 (4%)</td>
+                      <td class="text-right"><span class="badge badge--green">CLASSIFICADO</span></td>
+                    </tr>
+                    <tr style="opacity:0.65;">
+                      <td style="font-weight:600; color:#9a9a9a;">7º</td>
+                      <td style="font-weight:600; color:#fff;">Hugo Pereira</td>
+                      <td style="font-weight:700; color:#3ecf8e;">740</td>
+                      <td>11</td>
+                      <td>0</td>
+                      <td>4</td>
+                      <td style="color:#9a9a9a;">—</td>
+                      <td class="text-right"><span class="badge badge--orange">ZONA DE CORTE</span></td>
+                    </tr>
+                    <tr style="opacity:0.65;">
+                      <td style="font-weight:600; color:#9a9a9a;">8º</td>
+                      <td style="font-weight:600; color:#fff;">Roberto Dias</td>
+                      <td style="font-weight:700; color:#3ecf8e;">690</td>
+                      <td>8</td>
+                      <td>0</td>
+                      <td>3</td>
+                      <td style="color:#9a9a9a;">—</td>
+                      <td class="text-right"><span class="badge badge--orange">ZONA DE CORTE</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Right: Highlights -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <div class="dash-panel">
+                <div class="dash-panel__title">🏆 Pódio da Temporada</div>
+                <div class="dash-panel__body">
+                  <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; align-items:center; gap:0.6rem;">
+                      <span style="font-size:1.5rem;">🥇</span>
+                      <div>
+                        <div style="font-weight:700; color:#fff; font-size:0.8rem;">Carlos Mendes</div>
+                        <div style="font-size:0.65rem; color:#9a9a9a;">14 etapas · 3 vitórias</div>
+                      </div>
+                    </div>
+                    <div style="text-align:right;">
+                      <div style="font-weight:700; color:#facc15; font-size:0.85rem;">1.420 pts</div>
+                      <div style="font-size:0.6rem; color:#3ecf8e;">+ R$ 10.000</div>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; align-items:center; gap:0.6rem;">
+                      <span style="font-size:1.5rem;">🥈</span>
+                      <div>
+                        <div style="font-weight:700; color:#fff; font-size:0.8rem;">Marcos Vinicius</div>
+                        <div style="font-size:0.65rem; color:#9a9a9a;">13 etapas · 2 vitórias</div>
+                      </div>
+                    </div>
+                    <div style="text-align:right;">
+                      <div style="font-weight:700; color:#facc15; font-size:0.85rem;">1.280 pts</div>
+                      <div style="font-size:0.6rem; color:#3ecf8e;">+ R$ 6.250</div>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:0.6rem;">
+                      <span style="font-size:1.5rem;">🥉</span>
+                      <div>
+                        <div style="font-weight:700; color:#fff; font-size:0.8rem;">Ana Paula Reis</div>
+                        <div style="font-size:0.65rem; color:#9a9a9a;">12 etapas · 2 vitórias</div>
+                      </div>
+                    </div>
+                    <div style="text-align:right;">
+                      <div style="font-weight:700; color:#facc15; font-size:0.85rem;">1.150 pts</div>
+                      <div style="font-size:0.6rem; color:#3ecf8e;">+ R$ 3.750</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dash-panel">
+                <div class="dash-panel__title">⚡ Próxima Etapa Pontuada</div>
+                <div class="dash-panel__body">
+                  <div style="font-weight:700; color:#fff; font-size:0.85rem;">Main Event Quinta</div>
+                  <div style="font-size:0.7rem; color:#9a9a9a; margin-top:-0.3rem;">Quinta-feira · 20:00 · Multiplicador 1.5x</div>
+                  <div style="font-size:0.65rem; color:#3ecf8e; background:rgba(62,207,142,0.1); border:1px solid rgba(62,207,142,0.25); border-radius:6px; padding:0.4rem 0.6rem;">
+                    🎯 Participar desta etapa garante 50 pontos de presença + pontuação dobrada para o Top 9!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: TICKETS -->
+        <div id="view-tickets" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Tickets & Satélites</h2>
+              <p class="dash-date">Total rastreabilidade: emissão → transferências → uso</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button" style="color: #3ecf8e;">+ Emitir ticket</button>
+            </div>
+          </div>
+
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#06b6d4">
+              <div class="kpi-card__label">TICKETS ATIVOS</div>
+              <div class="kpi-card__value">4</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#f59e0b">
+              <div class="kpi-card__label">VALOR EM CIRCULAÇÃO</div>
+              <div class="kpi-card__value">R$ 1.500</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">USADOS (30D)</div>
+              <div class="kpi-card__value">1</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#ef4444">
+              <div class="kpi-card__label">EXPIRANDO EM 7 DIAS</div>
+              <div class="kpi-card__value">0</div>
+            </div>
+          </div>
+
+          <div class="dash-panel">
+            <div style="padding: 1rem 1.25rem 0.5rem;">
+              <div class="dash-filters" style="margin-bottom: 0;">
+                <input type="text" class="dash-input" placeholder="Buscar por código, jogador ou origem..." />
+                <select class="dash-select" style="min-width: 150px;">
+                  <option>Todos os status</option>
+                  <option>Válido</option>
+                  <option>Usado</option>
+                  <option>Expirado</option>
+                </select>
+              </div>
+            </div>
+
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>CÓDIGO</th>
+                  <th>JOGADOR</th>
+                  <th>VALOR</th>
+                  <th>ORIGEM</th>
+                  <th>VALIDADE</th>
+                  <th>STATUS</th>
+                  <th class="text-right">AÇÕES</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-family:monospace; font-weight:600; color:#fff;">TK-2026-0001</td>
+                  <td style="font-weight:600; color:#fff;">Carlos Mendes</td>
+                  <td style="font-weight:600; color:#fff;">R$ 500</td>
+                  <td style="color:#9a9a9a;">Satélite Sábado 04/06</td>
+                  <td style="color:#9a9a9a;">30/06/2026</td>
+                  <td><span class="badge badge--green">VÁLIDO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">🔍 Trilha</a>
+                    <a href="#" class="table-action">Transferir</a>
+                    <a href="#" class="table-action">Usar</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-family:monospace; font-weight:600; color:#fff;">TK-2026-0002</td>
+                  <td style="font-weight:600; color:#fff;">Ana Paula Reis</td>
+                  <td style="font-weight:600; color:#fff;">R$ 500</td>
+                  <td style="color:#9a9a9a;">Satélite Sábado 04/06</td>
+                  <td style="color:#9a9a9a;">30/06/2026</td>
+                  <td><span class="badge badge--green">VÁLIDO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">🔍 Trilha</a>
+                    <a href="#" class="table-action">Transferir</a>
+                    <a href="#" class="table-action">Usar</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-family:monospace; font-weight:600; color:#fff;">TK-2026-0003</td>
+                  <td style="font-weight:600; color:#fff;">Marcos Vinicius</td>
+                  <td style="font-weight:600; color:#fff;">R$ 250</td>
+                  <td style="color:#9a9a9a;">Ranking maio (1º lugar)</td>
+                  <td style="color:#9a9a9a;">31/07/2026</td>
+                  <td><span class="badge badge--green">VÁLIDO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">🔍 Trilha</a>
+                    <a href="#" class="table-action">Transferir</a>
+                    <a href="#" class="table-action">Usar</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-family:monospace; font-weight:600; color:#fff;">TK-2026-0004</td>
+                  <td style="font-weight:600; color:#fff;">Carlos Mendes</td>
+                  <td style="font-weight:600; color:#fff;">R$ 250</td>
+                  <td style="color:#9a9a9a;">Promoção aniversário</td>
+                  <td style="color:#9a9a9a;">14/09/2026</td>
+                  <td><span class="badge badge--green">VÁLIDO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">🔍 Trilha</a>
+                    <a href="#" class="table-action">Transferir</a>
+                    <a href="#" class="table-action">Usar</a>
+                  </td>
+                </tr>
+                <tr style="opacity:0.7;">
+                  <td style="font-family:monospace; font-weight:600; color:#fff;">TK-2026-0005</td>
+                  <td style="font-weight:600; color:#fff;">Hugo Pereira</td>
+                  <td style="font-weight:600; color:#fff;">R$ 60</td>
+                  <td style="color:#9a9a9a;">Satélite Turbo 28/05</td>
+                  <td style="color:#9a9a9a;">06/06/2026</td>
+                  <td><span class="badge badge--orange">EXPIRADO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">🔍 Trilha</a>
+                  </td>
+                </tr>
+                <tr style="opacity:0.7;">
+                  <td style="font-family:monospace; font-weight:600; color:#fff;">TK-2026-0006</td>
+                  <td style="font-weight:600; color:#fff;">Sara Kim</td>
+                  <td style="font-weight:600; color:#fff;">R$ 500</td>
+                  <td style="color:#9a9a9a;">Satélite Sábado 28/05</td>
+                  <td style="color:#9a9a9a;">15/06/2026</td>
+                  <td><span class="badge badge--blue">USADO</span></td>
+                  <td class="text-right">
+                    <a href="#" class="table-action">🔍 Trilha</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- VIEW: JACKPOT -->
+        <div id="view-jackpot" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Acumulados de Jackpot</h2>
+              <p class="dash-date">Arrecadação automática a cada mão jogada - exibição nas TVs do salão</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button" style="color: #facc15;">📋 Registrar mão premiada</button>
+            </div>
+          </div>
+
+          <!-- Big Jackpot Hero Box -->
+          <div class="jackpot-hero">
+            <div class="jackpot-hero__label">🔥 BAD BEAT JACKPOT — ACUMULADO GERAL</div>
+            <div class="jackpot-hero__val">R$ 18.450</div>
+            <div class="jackpot-hero__sub">
+              <span style="color:#3ecf8e; font-size:0.65rem;">●</span> arrecadando em tempo real · R$ 2 por mão de cash game
+            </div>
+          </div>
+
+          <!-- 4 KPIs Grid -->
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#f59e0b">
+              <div class="kpi-card__label">ARRECADADO HOJE</div>
+              <div class="kpi-card__value">R$ 320</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">PAGO NO MÊS</div>
+              <div class="kpi-card__value">R$ 9.840</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#06b6d4">
+              <div class="kpi-card__label">MÃOS PREMIADAS (MÊS)</div>
+              <div class="kpi-card__value">3</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#10b981">
+              <div class="kpi-card__label">JACKPOTS ATIVOS</div>
+              <div class="kpi-card__value">3</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left: Active Jackpots -->
+            <div>
+              <div class="dash-panel">
+                <div class="dash-panel__title">Jackpots ativos</div>
+                <div class="dash-panel__body">
+                  <div style="padding-bottom:0.85rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <span style="font-weight:700; color:#fff; font-size:0.8rem;"><span style="color:#ef4444;">✦</span> Bad Beat Jackpot</span>
+                      <span style="font-weight:700; color:#facc15; font-size:0.9rem;">R$ 18.450</span>
+                    </div>
+                    <div style="font-size:0.68rem; color:#9a9a9a; margin-top:0.35rem; line-height:1.4;">
+                      Perdedor da mão 50% · vencedor 25% · demais na mesa 25%. Mínimo: quadra perdida. Contribuição: R$ 2 por mão de cash.
+                    </div>
+                  </div>
+
+                  <div style="padding-bottom:0.85rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <span style="font-weight:700; color:#fff; font-size:0.8rem;"><span style="color:#f59e0b;">✦</span> Royal Flush</span>
+                      <span style="font-weight:700; color:#facc15; font-size:0.9rem;">R$ 5.200</span>
+                    </div>
+                    <div style="font-size:0.68rem; color:#9a9a9a; margin-top:0.35rem; line-height:1.4;">
+                      100% para quem fizer Royal Flush usando as duas cartas da mão. Contribuição: R$ 1 por mão de cash.
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <span style="font-weight:700; color:#fff; font-size:0.8rem;"><span style="color:#eab308;">★</span> Mão do Dia (torneios)</span>
+                      <span style="font-weight:700; color:#facc15; font-size:0.9rem;">R$ 1.380</span>
+                    </div>
+                    <div style="font-size:0.68rem; color:#9a9a9a; margin-top:0.35rem; line-height:1.4;">
+                      Melhor mão do dia nos torneios leva 100% no fechamento. Contribuição: R$ 1 por re-entry.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Rewarded Hands -->
+            <div>
+              <div class="dash-panel">
+                <div class="dash-panel__title">🏆 Mãos premiadas</div>
+                <div class="dash-panel__body">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:0.85rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; gap:0.65rem; align-items:center;">
+                      <div style="width:32px; height:32px; border-radius:50%; background:rgba(250,204,21,0.15); display:flex; align-items:center; justify-content:center; font-size:1rem;">🏆</div>
+                      <div>
+                        <div style="font-weight:700; color:#fff; font-size:0.8rem;">Renata Melo</div>
+                        <div style="font-size:0.65rem; color:#9a9a9a;">Quadra de Reis &gt; perdida Bad Beat · 02/06 23:10</div>
+                      </div>
+                    </div>
+                    <div style="font-weight:700; color:#facc15; font-size:0.85rem; white-space:nowrap;">R$ 9.840</div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:0.85rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; gap:0.65rem; align-items:center;">
+                      <div style="width:32px; height:32px; border-radius:50%; background:rgba(250,204,21,0.15); display:flex; align-items:center; justify-content:center; font-size:1rem;">🏆</div>
+                      <div>
+                        <div style="font-weight:700; color:#fff; font-size:0.8rem;">Otto Wagner</div>
+                        <div style="font-size:0.65rem; color:#9a9a9a;">Royal Flush de copas · Royal Flush · 19/05 21:47</div>
+                      </div>
+                    </div>
+                    <div style="font-weight:700; color:#facc15; font-size:0.85rem; white-space:nowrap;">R$ 4.100</div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div style="display:flex; gap:0.65rem; align-items:center;">
+                      <div style="width:32px; height:32px; border-radius:50%; background:rgba(250,204,21,0.15); display:flex; align-items:center; justify-content:center; font-size:1rem;">🏆</div>
+                      <div>
+                        <div style="font-weight:700; color:#fff; font-size:0.8rem;">Marcos Vinicius</div>
+                        <div style="font-size:0.65rem; color:#9a9a9a;">Straight Flush · Mão do Dia · 11/05 22:30</div>
+                      </div>
+                    </div>
+                    <div style="font-weight:700; color:#facc15; font-size:0.85rem; white-space:nowrap;">R$ 950</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: MARKETING -->
+        <div id="view-marketing" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Marketing — Landing Page</h2>
+              <p class="dash-date">O que você salva aqui aparece na hora no site público</p>
+            </div>
+            <div class="dash-header__actions">
+              <a href="#" class="dash-chip" style="color: #38bdf8;">🔗 Ver landing page</a>
+            </div>
+          </div>
+
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#10b981">
+              <div class="kpi-card__label">POPUP DE ABERTURA</div>
+              <div class="kpi-card__value" style="color:#3ecf8e;">ATIVO</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">LEADS RECEBIDOS</div>
+              <div class="kpi-card__value">0</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#f59e0b">
+              <div class="kpi-card__label">PLANO EM DESTAQUE</div>
+              <div class="kpi-card__value" style="color:#f59e0b;">Pro</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#a855f7">
+              <div class="kpi-card__label">SEÇÕES DA LANDING</div>
+              <div class="kpi-card__value">6</div>
+              <div style="font-size: 0.6rem; color:#9a9a9a; margin-top: 0.2rem;">hero · destaque · quem somos · sobre · planos · contato</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left: Forms -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <!-- Popup Card -->
+              <div class="dash-panel">
+                <div class="dash-panel__title" style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>📢 Popup de abertura</span>
+                  <label style="display:flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.7rem; color:#3ecf8e; font-weight:normal;">
+                    <input type="checkbox" checked style="accent-color:#3ecf8e;" /> Ativo
+                  </label>
+                </div>
+                <div class="dash-panel__body">
+                  <div class="dash-form-group">
+                    <label class="dash-form-label">Título</label>
+                    <input type="text" class="dash-input" value="🔥 Oferta de lançamento" />
+                  </div>
+                  <div class="dash-form-group">
+                    <label class="dash-form-label">Texto</label>
+                    <textarea class="dash-textarea">Assine o plano Pro até 30/06 e ganhe 2 meses do módulo GameID grátis para o seu clube.</textarea>
+                  </div>
+                  <div class="dash-form-group">
+                    <label class="dash-form-label">Texto do botão</label>
+                    <input type="text" class="dash-input" value="Quero aproveitar" />
+                  </div>
+
+                  <div class="dash-form-group">
+                    <label class="dash-form-label">Prévia:</label>
+                    <div class="marketing-preview-box">
+                      <div style="font-weight:700; color:#fff; font-size:0.85rem;">🔥 Oferta de lançamento</div>
+                      <div style="font-size:0.7rem; color:#9a9a9a; max-width:320px;">Assine o plano Pro até 30/06 e ganhe 2 meses do módulo GameID grátis para o seu clube.</div>
+                      <button class="dash-chip" type="button" style="background:#e0332b; border-color:#e0332b; color:#fff; margin-top:0.3rem;">Quero aproveitar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Destaque Card -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">📢 Seção de destaque</div>
+                <div class="dash-panel__body">
+                  <div class="dash-form-group">
+                    <label class="dash-form-label">Título</label>
+                    <input type="text" class="dash-input" value="Semana do Clube: migração gratuita" />
+                  </div>
+                  <div class="dash-form-group">
+                    <label class="dash-form-label">Texto</label>
+                    <textarea class="dash-textarea">Trazemos todo o seu histórico de jogadores, ranking e financeiro para o StatPoker sem custo e sem parar a operação do clube.</textarea>
+                  </div>
+                  <div>
+                    <button class="dash-chip" type="button" style="background:rgba(255,255,255,0.08); color:#fff; border-color:rgba(255,255,255,0.2); font-weight:600;">
+                      💾 Salvar e publicar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Messages -->
+            <div>
+              <div class="dash-panel" style="height:100%;">
+                <div class="dash-panel__title">📬 Fale conosco — mensagens recebidas</div>
+                <div class="dash-panel__body" style="justify-content:center; align-items:center; min-height:220px; text-align:center;">
+                  <div style="font-size:0.75rem; color:#9a9a9a; max-width:280px; line-height:1.5;">
+                    Nenhuma mensagem ainda — elas chegam aqui quando alguém preenche o "fale conosco" da landing.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: FINANCEIRO -->
+        <div id="view-financeiro" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Financeiro Geral</h2>
+              <p class="dash-date">Todos os caixas consolidados · PW PIX conectado</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button" style="color: #9a9a9a;">📅 Agendar PIX</button>
+              <button class="dash-chip" type="button" style="color: #3ecf8e;">+ Novo lançamento</button>
+            </div>
+          </div>
+
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#10b981">
+              <div class="kpi-card__label">RESULTADO (7D)</div>
+              <div class="kpi-card__value" style="color:#3ecf8e;">+ R$ 10.746,00</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#06b6d4">
+              <div class="kpi-card__label">ENTRADAS (7D)</div>
+              <div class="kpi-card__value" style="color:#38bdf8;">+ R$ 29.816,00</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#ef4444">
+              <div class="kpi-card__label">SAÍDAS (7D)</div>
+              <div class="kpi-card__value" style="color:#ef4444;">- R$ 19.070,00</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#a855f7">
+              <div class="kpi-card__label">PIX AGENDADOS</div>
+              <div class="kpi-card__value">4</div>
+              <div style="font-size:0.65rem; color:#9a9a9a; margin-top:0.2rem;">próximo: dia 15</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left: Consolidated Statement -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <div class="dash-panel">
+                <div style="padding: 1rem 1.25rem 0.6rem;">
+                  <div class="dash-panel__title" style="padding:0 0 0.8rem 0; border-bottom:none;">Extrato consolidado</div>
+                  <div class="dash-filters" style="margin-bottom:0; flex-wrap:wrap;">
+                    <select class="dash-select" style="font-size:0.7rem; padding:0.35rem 0.6rem;">
+                      <option>Entradas e saídas ▾</option>
+                      <option>Somente entradas</option>
+                      <option>Somente saídas</option>
+                    </select>
+                    <input type="text" class="dash-input" placeholder="Buscar..." style="max-width:140px; font-size:0.7rem; padding:0.35rem 0.6rem;" />
+                    <select class="dash-select" style="font-size:0.7rem; padding:0.35rem 0.6rem;">
+                      <option>Todos os centros ▾</option>
+                      <option>Torneios</option>
+                      <option>Cash Game</option>
+                      <option>Bar & Rest.</option>
+                      <option>Administrativo</option>
+                    </select>
+                    <select class="dash-select" style="font-size:0.7rem; padding:0.35rem 0.6rem;">
+                      <option>Todas as formas ▾</option>
+                      <option>PW PIX</option>
+                      <option>Dinheiro</option>
+                      <option>Cartão</option>
+                      <option>Créditos internos</option>
+                    </select>
+                  </div>
+                </div>
+
+                <table class="dash-table">
+                  <thead>
+                    <tr>
+                      <th>DATA</th>
+                      <th>DESCRIÇÃO</th>
+                      <th>CENTRO</th>
+                      <th>FORMA</th>
+                      <th class="text-right">VALOR</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">11/06 21:40</td>
+                      <td style="font-weight:600; color:#fff;">Vendas caixa Main Event Quinta</td>
+                      <td style="color:#9a9a9a;">🏆 Torneios</td>
+                      <td style="color:#9a9a9a;">PW PIX</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 6.580,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">11/06 21:15</td>
+                      <td style="font-weight:600; color:#fff;">Comanda #382 — Carlos Mendes</td>
+                      <td style="color:#9a9a9a;">🍺 Bar & Rest.</td>
+                      <td style="color:#9a9a9a;">Créditos internos</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 196,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">11/06 20:30</td>
+                      <td style="font-weight:600; color:#fff;">Compra de fichas — sessão cash</td>
+                      <td style="color:#9a9a9a;">💰 Cash Game</td>
+                      <td style="color:#9a9a9a;">Dinheiro</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 3.200,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">11/06 19:00</td>
+                      <td style="font-weight:600; color:#fff;">Compra de bebidas · Distribuidora Brahma</td>
+                      <td style="color:#9a9a9a;">🍺 Bar & Rest.</td>
+                      <td style="color:#9a9a9a;">PW PIX</td>
+                      <td class="text-right text-negative" style="font-weight:600;">- R$ 1.840,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">10/06 23:50</td>
+                      <td style="font-weight:600; color:#fff;">Rake da sessão de cash</td>
+                      <td style="color:#9a9a9a;">💰 Cash Game</td>
+                      <td style="color:#9a9a9a;">Dinheiro</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 2.100,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">10/06 22:00</td>
+                      <td style="font-weight:600; color:#fff;">Vendas bar — fechamento do dia</td>
+                      <td style="color:#9a9a9a;">🍺 Bar & Rest.</td>
+                      <td style="color:#9a9a9a;">Cartão</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 2.640,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">10/06 16:00</td>
+                      <td style="font-weight:600; color:#fff;">Pagamento dealers — diária (4)</td>
+                      <td style="color:#9a9a9a;">💼 Administrativo</td>
+                      <td style="color:#9a9a9a;">PW PIX</td>
+                      <td class="text-right text-negative" style="font-weight:600;">- R$ 960,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">09/06 23:30</td>
+                      <td style="font-weight:600; color:#fff;">Arrecadação Turbo Terça</td>
+                      <td style="color:#9a9a9a;">🏆 Torneios</td>
+                      <td style="color:#9a9a9a;">PW PIX</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 9.360,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">09/06 23:30</td>
+                      <td style="font-weight:600; color:#fff;">Premiação Turbo Terça</td>
+                      <td style="color:#9a9a9a;">🏆 Torneios</td>
+                      <td style="color:#9a9a9a;">PW PIX</td>
+                      <td class="text-right text-negative" style="font-weight:600;">- R$ 8.000,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">09/06 12:00</td>
+                      <td style="font-weight:600; color:#fff;">Energia elétrica — junho</td>
+                      <td style="color:#9a9a9a;">💼 Administrativo</td>
+                      <td style="color:#9a9a9a;">PW PIX</td>
+                      <td class="text-right text-negative" style="font-weight:600;">- R$ 1.320,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">08/06 20:15</td>
+                      <td style="font-weight:600; color:#fff;">Vendas bar — fechamento do dia</td>
+                      <td style="color:#9a9a9a;">🍺 Bar & Rest.</td>
+                      <td style="color:#9a9a9a;">Dinheiro</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 1.980,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">08/06 10:00</td>
+                      <td style="font-weight:600; color:#fff;">Manutenção mesas (feltro mesa 2)</td>
+                      <td style="color:#9a9a9a;">💼 Administrativo</td>
+                      <td style="color:#9a9a9a;">Cartão</td>
+                      <td class="text-right text-negative" style="font-weight:600;">- R$ 450,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">07/06 22:40</td>
+                      <td style="font-weight:600; color:#fff;">Rake da sessão de cash</td>
+                      <td style="color:#9a9a9a;">💰 Cash Game</td>
+                      <td style="color:#9a9a9a;">Dinheiro</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 1.740,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">06/06 09:00</td>
+                      <td style="font-weight:600; color:#fff;">Aluguel do salão — junho</td>
+                      <td style="color:#9a9a9a;">💼 Administrativo</td>
+                      <td style="color:#9a9a9a;">PW PIX</td>
+                      <td class="text-right text-negative" style="font-weight:600;">- R$ 6.500,00</td>
+                    </tr>
+                    <tr>
+                      <td style="color:#9a9a9a; font-size:0.7rem;">05/06 21:00</td>
+                      <td style="font-weight:600; color:#fff;">Arrecadação Satélite Sábado</td>
+                      <td style="color:#9a9a9a;">🏆 Torneios</td>
+                      <td style="color:#9a9a9a;">Créditos internos</td>
+                      <td class="text-right text-positive" style="font-weight:600;">+ R$ 1.440,00</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="padding:0.75rem 1.25rem; font-size:0.65rem; color:#9a9a9a; border-top:1px solid rgba(255,255,255,0.06); background:rgba(0,0,0,0.2);">
+                  15 lançamentos · entradas <span style="color:#3ecf8e;">+ R$ 29.816,00</span> · saídas <span style="color:#ef4444;">- R$ 19.070,00</span> · saldo <span style="color:#3ecf8e; font-weight:700;">+ R$ 10.746,00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Cost Centers & PIX Schedules & Payment Methods -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <!-- Centro de Custos -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">Centro de custos (7d)</div>
+                <div class="dash-panel__body">
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#fff;">🏆 Torneios</span>
+                      <span class="text-positive">+ R$ 9.000,00</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 80%; background:#3ecf8e;"></div>
+                    </div>
+                  </div>
+
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#fff;">💰 Cash Game</span>
+                      <span class="text-positive">+ R$ 7.120,00</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 65%; background:#3ecf8e;"></div>
+                    </div>
+                  </div>
+
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#fff;">🍺 Bar & Rest.</span>
+                      <span class="text-positive">+ R$ 2.976,00</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 35%; background:#3ecf8e;"></div>
+                    </div>
+                  </div>
+
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#fff;">💼 Administrativo</span>
+                      <span class="text-negative">- R$ 9.230,00</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 75%; background:#ef4444;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PW PIX Agendamentos -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">💳 PW PIX — agendamentos</div>
+                <div class="dash-panel__body">
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:0.7rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem;">Aluguel do salão</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">dia 6 · todo mês · R$ 6.500,00</div>
+                    </div>
+                    <span class="badge badge--green">PAGO</span>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:0.7rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem;">Distribuidora de bebidas</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">dia 11 · todo mês · R$ 1.840,00</div>
+                    </div>
+                    <span class="badge badge--green">PAGO</span>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:0.7rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem;">Internet + telefonia</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">dia 15 · todo mês · R$ 380,00</div>
+                    </div>
+                    <span class="badge badge--orange">PENDENTE</span>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.75rem;">Software de câmeras</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">dia 20 · todo mês · R$ 280,00</div>
+                    </div>
+                    <span class="badge badge--orange">PENDENTE</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Formas de pagamento -->
+              <div class="dash-panel">
+                <div class="dash-panel__title">Formas de pagamento (7d)</div>
+                <div class="dash-panel__body">
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#9a9a9a;">PW PIX</span>
+                      <span style="color:#fff;">55%</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 55%; background:#38bdf8;"></div>
+                    </div>
+                  </div>
+
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#9a9a9a;">Dinheiro</span>
+                      <span style="color:#fff;">31%</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 31%; background:#facc15;"></div>
+                    </div>
+                  </div>
+
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#9a9a9a;">Cartão</span>
+                      <span style="color:#fff;">9%</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 9%; background:#a855f7;"></div>
+                    </div>
+                  </div>
+
+                  <div class="cost-bar-item">
+                    <div class="cost-bar-header">
+                      <span style="color:#9a9a9a;">Créditos internos</span>
+                      <span style="color:#fff;">5%</span>
+                    </div>
+                    <div class="cost-bar-track">
+                      <div class="cost-bar-fill" style="width: 5%; background:#f97316;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW: RELATÓRIOS -->
+        <div id="view-relatorios" class="dash-view" hidden>
+          <div class="dash-header">
+            <div>
+              <h2 class="dash-welcome" style="color: white;">Relatórios Gerenciais</h2>
+              <p class="dash-date">Consolidado de fechamentos, DRE simplificada e exportação contábil</p>
+            </div>
+            <div class="dash-header__actions">
+              <button class="dash-chip" type="button" style="color: #9a9a9a;">📅 Filtrar Período</button>
+              <button class="dash-chip" type="button" style="color: #3ecf8e;">📥 Baixar PDF / Excel</button>
+            </div>
+          </div>
+
+          <div class="dash-kpi-grid">
+            <div class="kpi-card" style="--kpi-color:#3ecf8e">
+              <div class="kpi-card__label">Fechamentos Concluídos</div>
+              <div class="kpi-card__value">28</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#3b82f6">
+              <div class="kpi-card__label">Faturamento Consolidado</div>
+              <div class="kpi-card__value" style="font-size: 1.15rem;">R$ 142.800</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#10b981">
+              <div class="kpi-card__label">Lucro Líquido</div>
+              <div class="kpi-card__value" style="color:#3ecf8e; font-size: 1.15rem;">R$ 38.450</div>
+            </div>
+            <div class="kpi-card" style="--kpi-color:#f59e0b">
+              <div class="kpi-card__label">Margem Operacional</div>
+              <div class="kpi-card__value" style="color:#f59e0b;">26,9%</div>
+            </div>
+          </div>
+
+          <div class="dash-row">
+            <!-- Left: Documentos -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <div class="dash-panel">
+                <div class="dash-panel__title" style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>Relatórios Disponíveis p/ Download</span>
+                  <input type="text" class="dash-input" placeholder="Buscar relatório..." style="max-width:180px; padding:0.3rem 0.6rem; font-size:0.7rem;" />
+                </div>
+                <div class="dash-panel__body" style="gap:0.75rem;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.8rem;">📄 Fechamento Mensal — Maio/2026</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">Completo com DRE, conciliação bancária, rake e bar</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="color:#38bdf8;">📥 Baixar</button>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.8rem;">📊 Demonstrativo de Rake &amp; Torneios</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">Detalhamento por dia da semana, limites e mesas de cash</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="color:#38bdf8;">📥 Baixar</button>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.8rem;">🔒 Auditoria de Fichário &amp; Caixas</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">Histórico de sangrias, suprimentos e conferências dos operadores</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="color:#38bdf8;">📥 Baixar</button>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:0.75rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.8rem;">💳 Relação de Pagamentos &amp; PIX</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">Comprovantes autenticados e extrato com ID das transações</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="color:#38bdf8;">📥 Baixar</button>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                      <div style="font-weight:600; color:#fff; font-size:0.8rem;">🏆 Extrato de Premiações &amp; Retenções</div>
+                      <div style="font-size:0.65rem; color:#9a9a9a;">Comprovantes de pagamento de prêmios aos jogadores de torneios</div>
+                    </div>
+                    <button class="dash-chip" type="button" style="color:#38bdf8;">📥 Baixar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: DRE Simplificada -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <div class="dash-panel">
+                <div class="dash-panel__title">📈 DRE Simplificada (Mês Atual)</div>
+                <div class="dash-panel__body">
+                  <div style="display:flex; justify-content:space-between; font-size:0.75rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="color:#fff; font-weight:600;">(+) Receita Bruta Total</span>
+                    <span style="color:#3ecf8e; font-weight:700;">R$ 142.800</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#9a9a9a; padding-left:0.5rem;">
+                    <span>• Torneios (Inscrições/Re-entries)</span>
+                    <span style="color:#fff;">R$ 82.400</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#9a9a9a; padding-left:0.5rem;">
+                    <span>• Rake Cash Game</span>
+                    <span style="color:#fff;">R$ 44.100</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#9a9a9a; padding-left:0.5rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span>• Bar &amp; Restaurante</span>
+                    <span style="color:#fff;">R$ 16.300</span>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; font-size:0.75rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="color:#ef4444; font-weight:600;">(-) Premiações Pagas</span>
+                    <span style="color:#ef4444; font-weight:700;">- R$ 68.500</span>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; font-size:0.75rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="color:#ef4444; font-weight:600;">(-) Custos Insumos Bar</span>
+                    <span style="color:#ef4444; font-weight:700;">- R$ 13.710</span>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; font-size:0.75rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <span style="color:#ef4444; font-weight:600;">(-) Despesas Fixas &amp; Dealers</span>
+                    <span style="color:#ef4444; font-weight:700;">- R$ 22.140</span>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; font-size:0.85rem; padding-top:0.3rem; background:rgba(62,207,142,0.1); border:1px solid rgba(62,207,142,0.25); border-radius:8px; padding:0.6rem 0.75rem;">
+                    <span style="color:#fff; font-weight:700;">(=) Resultado Líquido</span>
+                    <span style="color:#3ecf8e; font-weight:800;">+ R$ 38.450</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.dash-content -->
+    </main>
+  </div><!-- /#overlayDashboard -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa da Cultura Liberato Torino | Itamonte - MG</title>
+  <style>
+    /* Reset & Variáveis de Estilo da Casa da Cultura Liberato Torino */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    :root {
+      --header-bg: #ecece8;
+      --text-gold: #aa8855;
+      --navy-logo: #0b1e36;
+      --navy-hover: #173256;
+      --bg-main: #faf9f6;
+      --surface: #ffffff;
+      --dark-text: #1f2937;
+      --muted-text: #6b7280;
+      --border-color: #e5e7eb;
+      --accent-gold: #c59b5d;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--dark-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar Idioma */
+    .topbar {
+      background-color: #e6e6e2;
+      padding: 0.25rem 2rem;
+      font-size: 0.75rem;
+      color: #555;
+      border-bottom: 1px solid #dcdcd8;
+    }
+
+    .topbar-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .lang-selector {
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* Header Fiel ao Layout da Referência */
+    header {
+      background-color: var(--header-bg);
+      border-bottom: 1px solid #dcdcd8;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.15rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    @media (max-width: 1024px) {
+      .header-container {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 1rem;
+      }
+    }
+
+    /* Menu de Navegação Institucional */
+    .nav-menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.15rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: var(--text-gold);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: all 0.2s;
+    }
+
+    .nav-menu a.active, .nav-menu a:hover {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      color: #8c6e3b;
+    }
+
+    /* Logo Tipográfico Central Stacked */
+    .brand-logo-container {
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .logo-stacked {
+      color: var(--navy-logo);
+      font-family: 'Segoe UI', sans-serif;
+      text-transform: uppercase;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    .logo-stacked .line-1 {
+      font-size: 1.15rem;
+      letter-spacing: 0.45em;
+      display: block;
+      margin-left: 0.45em;
+    }
+
+    .logo-stacked .line-2 {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      display: block;
+      margin-left: 0.22em;
+      margin-top: 2px;
+    }
+
+    .logo-stacked .line-3 {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      display: block;
+      margin-left: 0.18em;
+      margin-top: 3px;
+      color: var(--text-gold);
+      font-weight: 700;
+    }
+
+    /* Redes Sociais Direita */
+    .social-icons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      align-items: center;
+    }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #333333;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .social-icon:hover {
+      background: var(--navy-logo);
+    }
+
+    .social-icon svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
+    /* Hero Banner Institucional Limpo (Sem Fotos) */
+    .hero-banner {
+      background: linear-gradient(135deg, #0b1e36 0%, #173256 100%);
+      color: #ffffff;
+      padding: 3.5rem 2rem;
+      text-align: center;
+      border-bottom: 4px solid var(--accent-gold);
+    }
+
+    .hero-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .location-badge {
+      display: inline-block;
+      background: rgba(170, 136, 85, 0.25);
+      border: 1px solid var(--accent-gold);
+      color: #f3e8d2;
+      padding: 0.35rem 1.1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-banner h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-banner p {
+      font-size: 1.05rem;
+      color: #e5e7eb;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    /* Navegação de Seções da Página */
+    .section-container {
+      display: none; /* Controlado via JS SPA routing */
+      max-width: 1150px;
+      width: 100%;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .section-container.active-view {
+      display: block;
+    }
+
+    /* Estilo de Títulos das Seções */
+    .section-title-block {
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.75rem;
+    }
+
+    .section-title-block h2 {
+      font-size: 1.6rem;
+      color: var(--navy-logo);
+      font-weight: 700;
+    }
+
+    .section-title-block p {
+      font-size: 0.95rem;
+      color: var(--muted-text);
+    }
+
+    /* Grid de Cards Institucionais */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .grid-2 {
+        grid-template-columns: 1fr 380px;
+      }
+    }
+
+    /* Componente Card Limpo */
+    .card {
+      background: var(--surface);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+      padding: 1.75rem;
+    }
+
+    .program-card {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-top: 4px solid var(--navy-logo);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .program-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.06);
+    }
+
+    .program-card .tag-category {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .program-card h3 {
+      font-size: 1.15rem;
+      color: var(--navy-logo);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .program-card p {
+      font-size: 0.875rem;
+      color: var(--muted-text);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .program-card .btn-inscrever {
+      display: inline-block;
+      padding: 0.4rem 0.9rem;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      color: var(--navy-logo);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .program-card .btn-inscrever:hover {
+      background: var(--navy-logo);
+      color: #ffffff;
+    }
+
+    /* Formulário de Presença & Inscrição (João) */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--dark-text);
+      margin-bottom: 0.375rem;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #fafaf9;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      color: var(--dark-text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--navy-logo);
+      box-shadow: 0 0 0 3px rgba(11, 30, 54, 0.12);
+      background: #ffffff;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      background: #f3f4f6;
+      padding: 0.875rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      margin-top: 0.2rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--navy-logo);
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      font-size: 0.825rem;
+      color: var(--muted-text);
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    /* Botões */
+    .btn-submit {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--navy-logo);
+      border: none;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      min-height: 48px;
+    }
+
+    .btn-submit:hover {
+      background: var(--navy-hover);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: #f3f4f6;
+      border: 1px solid var(--border-color);
+      color: var(--dark-text);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    /* Alerta & Sucesso */
+    .alert-message {
+      padding: 0.875rem 1rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+
+    .alert-error {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .check-icon {
+      width: 68px;
+      height: 68px;
+      background: #15803d;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem auto;
+      box-shadow: 0 8px 20px rgba(21, 128, 61, 0.25);
+    }
+
+    .check-icon svg {
+      width: 38px;
+      height: 38px;
+      stroke: #ffffff;
+      stroke-width: 3;
+      fill: none;
+    }
+
+    /* Painel Admin da Ana */
+    .admin-link {
+      margin-top: 1.5rem;
+      text-align: center;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 1rem;
+    }
+
+    .admin-link a {
+      color: var(--muted-text);
+      font-size: 0.825rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .admin-link a:hover {
+      color: var(--navy-logo);
+    }
+
+    .admin-panel {
+      display: none;
+      margin-top: 2rem;
+      width: 100%;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      text-align: left;
+      background: #fff;
+    }
+
+    th, td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      color: var(--navy-logo);
+      font-weight: 700;
+      background: var(--bg-main);
+    }
+
+    /* Rodapé Institucional Completo */
+    footer {
+      background: #111827;
+      color: #9ca3af;
+      padding: 3.5rem 2rem 1.5rem 2rem;
+      margin-top: auto;
+      font-size: 0.875rem;
+    }
+
+    .footer-container {
+      max-width: 1150px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .footer-col h4 {
+      color: #ffffff;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .footer-col p {
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-col a {
+      color: #d1d5db;
+      text-decoration: none;
+    }
+
+    .footer-col a:hover {
+      color: var(--accent-gold);
+    }
+
+    .footer-bottom {
+      max-width: 1150px;
+      margin: 1.5rem auto 0 auto;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar Idioma -->
+  <div class="topbar">
+    <div class="topbar-container">
+      <span class="lang-selector">PT ▾</span>
+    </div>
+  </div>
+
+  <!-- Header Fiel à Referência Visual -->
+  <header>
+    <div class="header-container">
+
+      <!-- Menu Institucional -->
+      <ul class="nav-menu">
+        <li><a href="/" onclick="switchView('home'); return false;" id="nav-home" class="active">Início</a></li>
+        <li><a href="/a-casa" onclick="switchView('a-casa'); return false;" id="nav-a-casa">A Casa</a></li>
+        <li><a href="/agenda" onclick="switchView('agenda'); return false;" id="nav-agenda">Agenda</a></li>
+        <li><a href="/programas" onclick="switchView('programas'); return false;" id="nav-programas">Programas</a></li>
+        <li><a href="/contato" onclick="switchView('contato'); return false;" id="nav-contato">Contato</a></li>
+        <li><a href="/apoie" onclick="switchView('apoie'); return false;" id="nav-apoie">Apoie</a></li>
+        <li><a href="/plano-museologico" onclick="switchView('plano-museologico'); return false;" id="nav-plano-museologico">Plano Museológico</a></li>
+      </ul>
+
+      <!-- Logo Central Tipográfico Stacked -->
+      <a href="/" onclick="switchView('home'); return false;" class="brand-logo-container">
+        <div class="logo-stacked">
+          <span class="line-1">C A S A</span>
+          <span class="line-2">DA C U L T U R A</span>
+          <span class="line-3">DE LIBERATO TORINO</span>
+        </div>
+      </a>
+
+      <!-- Redes Sociais Direita -->
+      <div class="social-icons">
+        <a href="https://instagram.com/casaculturaliberatotorino" target="_blank" class="social-icon" title="Instagram @casaculturaliberatotorino">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-icon" title="Facebook">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.714 5H18V0h-3.808C10.592 0 9 1.839 9 4.907V8z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-icon" title="YouTube">
+          <svg viewBox="0 0 24 24">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Banner Limpo (Sem Fotos) -->
+  <section class="hero-banner">
+    <div class="hero-container">
+      <span class="location-badge">Itamonte • Minas Gerais</span>
+      <h1>Casa da Cultura Liberato Torino</h1>
+      <p>Espaço público de arte, música, teatro e preservação da memória na Serra da Mantiqueira</p>
+    </div>
+  </section>
+
+  <!-- PÁGINA 1: INÍCIO (/) -->
+  <div id="view-home" class="section-container active-view">
+    <div class="grid-2">
+      <!-- Formulário de Registro de Presença & Inscrição -->
+      <div>
+        <div class="card" id="studentCard">
+          <div class="section-title-block" style="border-bottom: none; margin-bottom: 1rem;">
+            <h2>Registro de Presença & Inscrição</h2>
+            <p>Confirme sua frequência em oficinas, cursos e eventos da Casa</p>
+          </div>
+
+          <div id="alertBox" class="alert-message alert-error"></div>
+
+          <form id="presencaForm">
+            <div class="form-group">
+              <label for="evento_select">Selecione o Programa ou Evento</label>
+              <select id="evento_select" onchange="document.getElementById('evento_id').value = this.value">
+                <option value="teatro-adulto">Teatro Adulto</option>
+                <option value="teatro-adolescente">Teatro Adolescente</option>
+                <option value="teatro-infantil">Teatro Infantil</option>
+                <option value="aula-viola">Aula de Viola</option>
+                <option value="leitura-adulto">Grupo de Leitura - Adultos</option>
+                <option value="leitura-adolescente">Grupo de Leitura - Adolescentes</option>
+                <option value="escrita-criativa">Escrita Criativa</option>
+                <option value="banda-municipal">Banda Municipal</option>
+              </select>
+              <input type="hidden" id="evento_id" name="evento_id" value="teatro-adulto">
+            </div>
+
+            <div class="form-group">
+              <label for="aluno_nome">Nome Completo</label>
+              <input type="text" id="aluno_nome" name="aluno_nome" placeholder="Digite seu nome completo" required>
+            </div>
+
+            <div class="form-group">
+              <label for="aluno_email">E-mail para Contato & Certificado</label>
+              <input type="email" id="aluno_email" name="aluno_email" placeholder="seu.email@exemplo.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="aluno_matricula">Matrícula ou CPF (Apenas Números)</label>
+              <input type="text" id="aluno_matricula" name="aluno_matricula" pattern="[0-9]+" placeholder="Ex: 202610045" required>
+            </div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="lgpd_check" required>
+              <label for="lgpd_check">Concordo com o tratamento dos meus dados exclusivamente para fins de gestão de frequência e certificação (LGPD).</label>
+            </div>
+
+            <button type="submit" class="btn-submit">Confirmar Registro</button>
+          </form>
+
+          <!-- Tela de Sucesso -->
+          <div class="success-screen" id="successScreen">
+            <div class="check-icon">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h3 style="color: var(--navy-logo); margin-bottom: 0.5rem;">Registro Confirmado!</h3>
+            <p style="color: var(--muted-text); font-size: 0.95rem;">
+              Sua presença foi salva com sucesso no sistema da Casa da Cultura Liberato Torino.
+            </p>
+          </div>
+
+          <div class="admin-link">
+            <a href="#" onclick="toggleAdminPanel(); return false;">⚙️ Painel de Gestão da Casa (Ana)</a>
+          </div>
+        </div>
+
+        <!-- Painel Admin (Ana) -->
+        <div class="card admin-panel" id="adminCard">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="color: var(--navy-logo);">Painel de Gestão de Presenças</h3>
+            <button class="btn-secondary" onclick="toggleAdminPanel()">Voltar ao Formulário</button>
+          </div>
+
+          <div class="form-group" id="tokenGroup">
+            <label for="admin_token">Token Administrativo</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="password" id="admin_token" placeholder="Digite a chave secreta (ex: admin123)">
+              <button class="btn-submit" style="width: auto; padding: 0 1.25rem;" onclick="carregarPresencas()">Acessar</button>
+            </div>
+          </div>
+
+          <div id="adminContent" style="display: none; margin-top: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <span id="totalCount" style="font-weight: 700; color: var(--navy-logo); font-size: 1rem;">Total de Registros: 0</span>
+              <button class="btn-submit" style="width: auto; padding: 0.5rem 1.25rem; background: #15803d;" onclick="exportarCSV()">📥 Exportar Lista CSV</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Matrícula</th>
+                    <th>Data / Hora</th>
+                  </tr>
+                </thead>
+                <tbody id="presencasTableBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumo Institucional Lado Direito -->
+      <div>
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <h3 style="color: var(--navy-logo); margin-bottom: 0.75rem; font-size: 1.15rem;">Atividades em Destaque</h3>
+          <p style="font-size: 0.875rem; color: var(--muted-text); margin-bottom: 1.25rem;">
+            Oferecemos 8 programas contínuos de formação artística e incentivo à leitura para a comunidade de Itamonte.
+          </p>
+          <a href="/programas" onclick="switchView('programas'); return false;" class="btn-secondary" style="display: block; text-align: center; text-decoration: none;">Conhecer Todos os 8 Programas</a>
+        </div>
+
+        <div class="card" style="background: #f8fafc; border-left: 4px solid var(--text-gold);">
+          <h4 style="color: var(--navy-logo); font-size: 1rem; margin-bottom: 0.5rem;">Informações Rápidas</h4>
+          <p style="font-size: 0.85rem; color: var(--dark-text); margin-bottom: 0.5rem;">📍 <strong>Endereço:</strong> Rua Presidente Vargas, 149 - Centro, Itamonte, MG</p>
+          <p style="font-size: 0.85rem; color: var(--dark-text); margin-bottom: 0.5rem;">🕒 <strong>Horário:</strong> Segunda a sexta, das 9h às 18h</p>
+          <p style="font-size: 0.85rem; color: var(--dark-text);">💬 <strong>WhatsApp:</strong> (35) 9265-0185</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 2: A CASA (/a-casa) -->
+  <div id="view-a-casa" class="section-container">
+    <div class="section-title-block">
+      <h2>A Casa da Cultura Liberato Torino</h2>
+      <p>História, missão e compromisso com o patrimônio cultural de Itamonte - MG</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem; line-height: 1.8;">
+      <h3 style="color: var(--navy-logo); margin-bottom: 1rem;">Nossa História e Missão</h3>
+      <p style="margin-bottom: 1rem;">
+        A <strong>Casa da Cultura Liberato Torino</strong> é o polo difusor da arte, da memória e da cidadania no município de Itamonte, localizado na região da Serra da Mantiqueira, em Minas Gerais.
+      </p>
+      <p style="margin-bottom: 1rem;">
+        Nomeada em homenagem ao grande incentivador cultural Liberato Torino, a instituição promove o acesso democrático às expressões artísticas através de oficinas de teatro, aulas de música tradicional, grupos de leitura e oficinas de escrita criativa.
+      </p>
+      <p>
+        Nossa missão é valorizar a identidade cultural itamontense, apoiar os artistas locais e oferecer formação contínua e gratuita para crianças, jovens e adultos.
+      </p>
+    </div>
+
+    <div class="grid-4">
+      <div class="program-card">
+        <span class="tag-category">Pilar 1</span>
+        <h3>Formação Gratuita</h3>
+        <p>Cursos de música, teatro e literatura para todas as faixas etárias.</p>
+      </div>
+      <div class="program-card">
+        <span class="tag-category">Pilar 2</span>
+        <h3>Patrimônio Vivo</h3>
+        <p>Preservação das tradições mineiras, da viola caipira e da história local.</p>
+      </div>
+      <div class="program-card">
+        <span class="tag-category">Pilar 3</span>
+        <h3>Incentivo à Leitura</h3>
+        <p>Grupos de leitura e oficina de escrita criativa comunitários.</p>
+      </div>
+      <div class="program-card">
+        <span class="tag-category">Pilar 4</span>
+        <h3>Música em Conjunto</h3>
+        <p>Ensaios e apresentações com a tradicional Banda Municipal.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 3: AGENDA (/agenda) -->
+  <div id="view-agenda" class="section-container">
+    <div class="section-title-block">
+      <h2>Agenda de Eventos e Atividades</h2>
+      <p>Confira a programação semanal das oficinas e encontros culturais</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="color: var(--navy-logo); margin-bottom: 1rem;">Programação Semanal</h3>
+        <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1rem;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-gold);">SEGUNDAS E QUARTAS</span>
+          <h4 style="color: var(--navy-logo); font-size: 1.1rem; margin: 0.2rem 0;">Aulas de Viola Caipira & Banda Municipal</h4>
+          <p style="font-size: 0.875rem; color: var(--muted-text);">Horário: 14h às 17h | Local: Sala de Música</p>
+        </div>
+        <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1rem;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-gold);">TERÇAS E QUINTAS</span>
+          <h4 style="color: var(--navy-logo); font-size: 1.1rem; margin: 0.2rem 0;">Oficinas de Teatro (Infantil, Adolescente e Adulto)</h4>
+          <p style="font-size: 0.875rem; color: var(--muted-text);">Horário: 09h às 18h (por turma) | Local: Auditório Principal</p>
+        </div>
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-gold);">SEXTAS-FEIRAS</span>
+          <h4 style="color: var(--navy-logo); font-size: 1.1rem; margin: 0.2rem 0;">Grupos de Leitura & Escrita Criativa</h4>
+          <p style="font-size: 0.875rem; color: var(--muted-text);">Horário: 15h às 18h | Local: Biblioteca da Casa</p>
+        </div>
+      </div>
+
+      <div class="card" style="background: #f8fafc;">
+        <h3 style="color: var(--navy-logo); margin-bottom: 0.75rem;">Inscreva-se na Agenda</h3>
+        <p style="font-size: 0.875rem; color: var(--muted-text); margin-bottom: 1.25rem;">
+          Todas as nossas atividades são gratuitas. Garanta sua vaga ou confirme sua presença no formulário da página inicial.
+        </p>
+        <a href="/" onclick="switchView('home'); return false;" class="btn-submit" style="display: block; text-align: center; text-decoration: none;">Ir para o Formulário de Registro</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 4: PROGRAMAS (/programas) -->
+  <div id="view-programas" class="section-container">
+    <div class="section-title-block">
+      <h2>Programas e Atividades Contínuas</h2>
+      <p>Conheça os 8 programas de formação artística e literária da Casa da Cultura Liberato Torino</p>
+    </div>
+
+    <div class="grid-4">
+      <!-- 1. Teatro Adulto -->
+      <div class="program-card">
+        <span class="tag-category">Teatro</span>
+        <h3>Teatro Adulto</h3>
+        <p>Prática de interpretação, jogos dramáticos, montagem teatral e expressão corporal para maiores de 18 anos.</p>
+        <a href="/" onclick="selecionarEIr('teatro-adulto'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+
+      <!-- 2. Teatro Adolescente -->
+      <div class="program-card">
+        <span class="tag-category">Teatro</span>
+        <h3>Teatro Adolescente</h3>
+        <p>Desenvolvimento da desinibição, trabalho em equipe e criação cênica para jovens de 12 a 17 anos.</p>
+        <a href="/" onclick="selecionarEIr('teatro-adolescente'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+
+      <!-- 3. Teatro Infantil -->
+      <div class="program-card">
+        <span class="tag-category">Teatro</span>
+        <h3>Teatro Infantil</h3>
+        <p>Estímulo lúdico à imaginação, contação de histórias e expressão artística para crianças de 6 a 11 anos.</p>
+        <a href="/" onclick="selecionarEIr('teatro-infantil'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+
+      <!-- 4. Aula de Viola -->
+      <div class="program-card">
+        <span class="tag-category">Música</span>
+        <h3>Aula de Viola</h3>
+        <p>Aprendizado da viola caipira, ritmos tradicionais mineiros e afinações da cultura popular da Mantiqueira.</p>
+        <a href="/" onclick="selecionarEIr('aula-viola'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+
+      <!-- 5. Grupo de Leitura - Adultos -->
+      <div class="program-card">
+        <span class="tag-category">Literatura</span>
+        <h3>Grupo de Leitura - Adultos</h3>
+        <p>Encontros quinzenais para debate de obras clássicas, literatura brasileira e autores contemporâneos.</p>
+        <a href="/" onclick="selecionarEIr('leitura-adulto'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+
+      <!-- 6. Grupo de Leitura - Adolescentes -->
+      <div class="program-card">
+        <span class="tag-category">Literatura</span>
+        <h3>Grupo de Leitura - Adolescentes</h3>
+        <p>Clube do livro voltado para jovens com foco em literatura jovem adulto, fantasia, HQs e clássicos.</p>
+        <a href="/" onclick="selecionarEIr('leitura-adolescente'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+
+      <!-- 7. Escrita Criativa -->
+      <div class="program-card">
+        <span class="tag-category">Literatura</span>
+        <h3>Escrita Criativa</h3>
+        <p>Oficina prática de criação literária, técnicas de narrativa, poesia, conto e desenvolvimento de texto.</p>
+        <a href="/" onclick="selecionarEIr('escrita-criativa'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+
+      <!-- 8. Banda Municipal -->
+      <div class="program-card">
+        <span class="tag-category">Música</span>
+        <h3>Banda Municipal</h3>
+        <p>Formação musical em instrumentos de sopro e percussão com ensaios para retretas e eventos oficiais da cidade.</p>
+        <a href="/" onclick="selecionarEIr('banda-municipal'); return false;" class="btn-inscrever">Inscrever-se</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 5: CONTATO (/contato) -->
+  <div id="view-contato" class="section-container">
+    <div class="section-title-block">
+      <h2>Fale Conosco e Localização</h2>
+      <p>Canais oficiais de atendimento da Casa da Cultura Liberato Torino</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="color: var(--navy-logo); margin-bottom: 1.25rem;">Informações de Contato</h3>
+        <div style="margin-bottom: 1rem;">
+          <strong style="color: var(--navy-logo);">📍 Endereço:</strong>
+          <p style="color: var(--muted-text);">Rua Presidente Vargas, 149 - Centro<br>Itamonte - MG, CEP: 37466-000</p>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong style="color: var(--navy-logo);">🕒 Horário de Atendimento:</strong>
+          <p style="color: var(--muted-text);">Segunda a sexta-feira, das 9h às 18h</p>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <strong style="color: var(--navy-logo);">💬 WhatsApp:</strong>
+          <p><a href="https://wa.me/5535992650185" target="_blank" style="color: var(--text-gold); font-weight: 700;">(35) 9265-0185</a></p>
+        </div>
+        <div>
+          <strong style="color: var(--navy-logo);">📷 Instagram:</strong>
+          <p><a href="https://instagram.com/casaculturaliberatotorino" target="_blank" style="color: var(--text-gold); font-weight: 700;">@casaculturaliberatotorino</a></p>
+        </div>
+      </div>
+
+      <div class="card" style="background: #f8fafc;">
+        <h3 style="color: var(--navy-logo); margin-bottom: 1rem;">Visite Itamonte</h3>
+        <p style="font-size: 0.9rem; color: var(--muted-text); margin-bottom: 1rem;">
+          A Casa da Cultura Liberato Torino fica localizada no coração de Itamonte, a poucos passos da praça central. Venha conhecer nosso acervo e participar dos projetos!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 6: APOIE (/apoie) -->
+  <div id="view-apoie" class="section-container">
+    <div class="section-title-block">
+      <h2>Apoie a Casa da Cultura</h2>
+      <p>Contribua para o fortalecimento das artes e formação de crianças e jovens em Itamonte - MG</p>
+    </div>
+
+    <div class="card" style="max-width: 800px; margin: 0 auto; text-align: center;">
+      <h3 style="color: var(--navy-logo); margin-bottom: 1rem;">Como Contribuir</h3>
+      <p style="color: var(--muted-text); margin-bottom: 1.5rem; font-size: 1rem;">
+        A Casa da Cultura Liberato Torino desenvolve projetos gratuitos com a comunidade. Sua doação via PIX apoia a compra de instrumentos musicais, livros para a biblioteca e materiais para as oficinas teatrais.
+      </p>
+
+      <div style="background: #f8fafc; border: 2px dashed var(--accent-gold); padding: 1.5rem; border-radius: 8px; max-width: 450px; margin: 0 auto 1.5rem auto;">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-gold); text-transform: uppercase;">Chave PIX de Contribuição</span>
+        <h4 style="font-size: 1.25rem; color: var(--navy-logo); margin: 0.5rem 0;">(35) 9265-0185</h4>
+        <p style="font-size: 0.825rem; color: var(--muted-text);">Casa da Cultura Liberato Torino • Itamonte/MG</p>
+      </div>
+
+      <p style="font-size: 0.875rem; color: var(--muted-text);">Muito obrigado por fazer parte da cultura de Itamonte!</p>
+    </div>
+  </div>
+
+  <!-- PÁGINA 7: PLANO MUSEOLÓGICO (/plano-museologico) -->
+  <div id="view-plano-museologico" class="section-container">
+    <div class="section-title-block">
+      <h2>Plano Museológico</h2>
+      <p>Diretrizes de preservação, conservação do acervo e planejamento institucional</p>
+    </div>
+
+    <div class="card" style="line-height: 1.8;">
+      <h3 style="color: var(--navy-logo); margin-bottom: 1rem;">Documento de Diretrizes Culturais</h3>
+      <p style="margin-bottom: 1rem;">
+        O Plano Museológico da Casa da Cultura Liberato Torino orienta as ações de pesquisa, salvaguarda, exposição e comunicação do patrimônio histórico e imaterial da cidade de Itamonte.
+      </p>
+      <div style="background: #f8fafc; padding: 1rem; border-radius: 6px; border-left: 4px solid var(--navy-logo); margin-top: 1rem;">
+        <strong style="color: var(--navy-logo);">Eixos de Atuação:</strong>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.9rem; color: var(--dark-text);">
+          <li>Inventário e documentação do acervo histórico municipal</li>
+          <li>Ações de educação patrimonial com as escolas de Itamonte</li>
+          <li>Conservação preventiva de documentos e instrumentos tradicionais</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé Institucional Completo -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Casa da Cultura Liberato Torino</h4>
+        <p>Rua Presidente Vargas, 149 - Centro</p>
+        <p>Itamonte - MG, CEP: 37466-000</p>
+        <p style="margin-top: 0.75rem; color: #d1d5db;"><strong>Horário:</strong> Seg a Sex, 9h às 18h</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Canais Rápidos</h4>
+        <p>WhatsApp: <a href="https://wa.me/5535992650185" target="_blank">(35) 9265-0185</a></p>
+        <p>Instagram: <a href="https://instagram.com/casaculturaliberatotorino" target="_blank">@casaculturaliberatotorino</a></p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <p><a href="/" onclick="switchView('home'); return false;">Início</a></p>
+        <p><a href="/a-casa" onclick="switchView('a-casa'); return false;">A Casa</a></p>
+        <p><a href="/programas" onclick="switchView('programas'); return false;">Programas</a></p>
+        <p><a href="/apoie" onclick="switchView('apoie'); return false;">Apoie</a></p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Apoio à Cultura</h4>
+        <p>Chave PIX: <strong>(35) 9265-0185</strong></p>
+        <p style="color: var(--accent-gold); font-weight: 700; margin-top: 0.5rem;">Metodologia VEM Offline-First</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Casa da Cultura Liberato Torino • Itamonte - MG | Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <script>
+    // Gerenciador de Navegação (SPA & Flask routes)
+    function switchView(viewName) {
+      // Esconde todas as views
+      const views = document.querySelectorAll('.section-container');
+      views.forEach(v => v.classList.remove('active-view'));
+
+      // Desmarca links ativos do nav
+      const navLinks = document.querySelectorAll('.nav-menu a');
+      navLinks.forEach(link => link.classList.remove('active'));
+
+      // Exibe a view selecionada
+      const targetView = document.getElementById('view-' + viewName);
+      if (targetView) {
+        targetView.classList.add('active-view');
+      } else {
+        document.getElementById('view-home').classList.add('active-view');
+      }
+
+      // Marca o link ativo
+      const activeNav = document.getElementById('nav-' + viewName);
+      if (activeNav) {
+        activeNav.classList.add('active');
+      }
+
+      // Atualiza URL no navegador sem dar reload
+      const routePath = viewName === 'home' ? '/' : '/' + viewName;
+      window.history.pushState({}, '', routePath);
+
+      // Rola pro topo
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selecionarEIr(eventoId) {
+      document.getElementById('evento_select').value = eventoId;
+      document.getElementById('evento_id').value = eventoId;
+      switchView('home');
+      const studentCard = document.getElementById('studentCard');
+      if (studentCard) {
+        studentCard.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Suporte aos botões do navegador (Voltar / Avançar)
+    window.addEventListener('popstate', () => {
+      const path = window.location.pathname.replace('/', '') || 'home';
+      switchView(path);
+    });
+
+    // Inicializa a rota atual ao carregar a página
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPath = window.location.pathname.replace('/', '') || 'home';
+      switchView(currentPath);
+    });
+
+    // Integração do Formulário de Registro (João)
+    const form = document.getElementById('presencaForm');
+    const alertBox = document.getElementById('alertBox');
+    const successScreen = document.getElementById('successScreen');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertBox.style.display = 'none';
+
+      const payload = {
+        evento_id: document.getElementById('evento_id').value,
+        aluno_nome: document.getElementById('aluno_nome').value.trim(),
+        aluno_email: document.getElementById('aluno_email').value.trim(),
+        aluno_matricula: document.getElementById('aluno_matricula').value.trim()
+      };
+
+      try {
+        const response = await fetch('/api/registrar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.erro || 'Erro ao registrar presença.');
+        }
+
+        form.style.display = 'none';
+        successScreen.style.display = 'block';
+
+      } catch (err) {
+        alertBox.textContent = err.message;
+        alertBox.style.display = 'block';
+      }
+    });
+
+    function toggleAdminPanel() {
+      const adminCard = document.getElementById('adminCard');
+      const studentCard = document.getElementById('studentCard');
+      if (adminCard.style.display === 'block') {
+        adminCard.style.display = 'none';
+        studentCard.style.display = 'block';
+      } else {
+        adminCard.style.display = 'block';
+        studentCard.style.display = 'none';
+      }
+    }
+
+    async function carregarPresencas() {
+      const token = document.getElementById('admin_token').value;
+      if (!token) {
+        alert('Insira o token de admin.');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/presencas', {
+          headers: { 'X-Admin-Token': token }
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.erro || 'Acesso negado.');
+        }
+
+        const presencas = await response.json();
+        const tbody = document.getElementById('presencasTableBody');
+        tbody.innerHTML = '';
+
+        presencas.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${p.id}</td>
+            <td>${escapeHtml(p.aluno_nome)}</td>
+            <td>${escapeHtml(p.aluno_email)}</td>
+            <td>${escapeHtml(p.aluno_matricula)}</td>
+            <td>${new Date(p.timestamp).toLocaleString('pt-BR')}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById('totalCount').textContent = `Total de Registros: ${presencas.length}`;
+        document.getElementById('adminContent').style.display = 'block';
+
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    function exportarCSV() {
+      const token = document.getElementById('admin_token').value;
+      if (!token) return;
+
+      window.location.href = `/api/exportar-csv?token=${encodeURIComponent(token)}`;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
+</body>
+</html>
