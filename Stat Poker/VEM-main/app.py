@@ -158,7 +158,11 @@ def exportar_csv():
         download_name=filename
     )
 
+# Garante que o banco existe independente de como o app é iniciado
+# (via "python app.py" diretamente OU via "gunicorn app:app" no Railway)
+init_db()
+
 if __name__ == '__main__':
-    init_db()
-    print("🚀 Servidor VEM rodando em http://localhost:5000")
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    print(f"🚀 Servidor VEM rodando na porta {port}")
+    app.run(host='0.0.0.0', port=port, debug=False)
